@@ -1,0 +1,662 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "E2D masterdata service",
+    "version": "1.0.0"
+  },
+  "basePath": "/api",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "student",
+      "description": "Operations about student"
+    },
+    {
+      "name": "instructor",
+      "description": "Operations about instructor"
+    },
+    {
+      "name": "school",
+      "description": "Operations about school"
+    },
+    {
+      "name": "car",
+      "description": "Operations about car"
+    }
+  ],
+  "paths": {
+    "/student/add": {
+      "post": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Create student",
+        "operationId": "createStudent",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student object",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        }
+      }
+    },
+
+    "/student/get/{id}": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Get student",
+        "operationId": "getStudent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student object",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        }
+      }
+    },
+
+    "/student/all": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Get all student",
+        "operationId": "getAllStudent",
+        "responses": {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Student"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/student/update/{id}": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "summary": "update student",
+        "operationId": "updateStudent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student object",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        }
+      }
+    },
+    "/student/delete/{id}": {
+      "delete": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Delete student",
+        "operationId": "deleteStudent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/instructor/add": {
+      "post": {
+        "tags": [
+          "instructor"
+        ],
+        "summary": "Create instructor",
+        "operationId": "createInstruktor",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "instructor object",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          }
+
+        }
+      }
+    },
+    "/instructor/get/{id}": {
+      "get": {
+        "tags": [
+          "instructor"
+        ],
+        "summary": "Get instructor",
+        "operationId": "getInstructor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "instructor object",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          }
+        }
+      }
+    },
+
+    "/instructor/all": {
+      "get": {
+        "tags": [
+          "instructor"
+        ],
+        "summary": "Get all instructors",
+        "operationId": "getAllInstructor",
+        "responses": {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Instructor"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/instructor/update/{id}": {
+      "put": {
+        "tags": [
+          "instructor"
+        ],
+        "summary": "update instructor",
+        "operationId": "updateInstructor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "instructor object",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          }
+        }
+      }
+    },
+    "/instructor/delete/{id}": {
+      "delete": {
+        "tags": [
+          "instructor"
+        ],
+        "summary": "Delete instructor",
+        "operationId": "deleteInstructor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/school/add": {
+      "post": {
+        "tags": [
+          "school"
+        ],
+        "summary": "Create school",
+        "operationId": "createSchool",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "school object",
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        }
+      }
+    },
+    "/school/get/{id}": {
+      "get": {
+        "tags": [
+          "school"
+        ],
+        "summary": "Get school",
+        "operationId": "getSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "school object",
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        }
+      }
+    },
+
+    "/school/all": {
+      "get": {
+        "tags": [
+          "school"
+        ],
+        "summary": "Get all schools",
+        "operationId": "getAllSchool",
+        "responses": {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/School"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/school/update/{id}": {
+      "put": {
+        "tags": [
+          "school"
+        ],
+        "summary": "update school",
+        "operationId": "updateSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "school object",
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        }
+      }
+    },
+    "/school/delete/{id}": {
+      "delete": {
+        "tags": [
+          "school"
+        ],
+        "summary": "Delete school",
+        "operationId": "deleteSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+
+    "/car/add": {
+      "post": {
+        "tags": [
+          "car"
+        ],
+        "summary": "Create car",
+        "operationId": "createCar",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car object",
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        }
+      }
+    },
+    "/car/get/{id}": {
+      "get": {
+        "tags": [
+          "car"
+        ],
+        "summary": "Get car",
+        "operationId": "getCar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car object",
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        }
+      }
+    },
+
+    "/car/all": {
+      "get": {
+        "tags": [
+          "car"
+        ],
+        "summary": "Get all cars",
+        "operationId": "getAllCar",
+        "responses": {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Car"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/car/update/{id}": {
+      "put": {
+        "tags": [
+          "car"
+        ],
+        "summary": "update car",
+        "operationId": "updateCar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "car object",
+            "schema": {
+              "$ref": "#/definitions/Car"
+            }
+          }
+        }
+      }
+    },
+    "/car/delete/{id}": {
+      "delete": {
+        "tags": [
+          "car"
+        ],
+        "summary": "Delete car",
+        "operationId": "deleteCar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Instructor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "school": {
+          "type": "integer"
+
+        }
+      }
+    },
+    "Student": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "school": {
+          "type": "integer"
+
+        },
+        "startEducation": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endEducation": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "School": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "officialeName": {
+          "type": "string"
+        }
+      }
+    },
+    "Car": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "school": {
+          "type": "integer"
+
+        },
+        "model": {
+          "type": "string"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "registrationNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "secondName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "student": {
+          "type": "integer"
+        },
+        "instructor": {
+          "type": "integer"
+
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
