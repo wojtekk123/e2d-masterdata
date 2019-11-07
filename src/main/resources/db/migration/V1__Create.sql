@@ -20,7 +20,7 @@ CREATE TABLE instructor(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE user_ (
+CREATE TABLE "user_account" (
     id SERIAL,
     first_name varchar (100) NOT NULL,
     second_name varchar (100) NOT NULL,
@@ -28,7 +28,10 @@ CREATE TABLE user_ (
     phone_number varchar (100) NOT NULL,
     student_id INT REFERENCES student(id),
     instructor_id INT REFERENCES instructor(id),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (email),
+    UNIQUE (phone_number)
+
 );
 
 CREATE TABLE car(
@@ -37,6 +40,7 @@ CREATE TABLE car(
     model VARCHAR (50) NOT NUll,
     brand VARCHAR (50) NOT NULL,
     registration_number VARCHAR (50) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (registration_number)
 );
 

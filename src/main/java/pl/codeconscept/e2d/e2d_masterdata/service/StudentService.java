@@ -1,7 +1,6 @@
 package pl.codeconscept.e2d.e2d_masterdata.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
@@ -24,11 +23,13 @@ public class StudentService {
     private final StudentRepo studentRepo;
     private final SchoolRepo schoolRepo;
     private final UserRepo userRepo;
-    private final JdbcTemplate jdbcTemplate;
 
-
+    @Transactional
     public UserEntity saveUser(Student studentDto) {
         StudentEntity student = saveStudent(studentDto);
+        if (student == null) {
+            throw new NullPointerException();
+        }
         User userDto = studentDto.getUserDto();
         UserEntity user = new UserEntity(userDto.getFirstName(), userDto.getSecondName(), userDto.getEmail(), userDto.getPhoneNumber(), student, null);
         return userRepo.save(user);
@@ -55,7 +56,7 @@ public class StudentService {
             user.setFirstName(userDto.getFirstName());
             user.setSecondName(userDto.getSecondName());
             user.setEmail(userDto.getEmail());
-            user.setPhoneNumber(userDto.getEmail());
+            user.setPhoneNumber(userDto.getPhoneNumber());
             user.setStudent(studentRepo.findById(idStd).map(std -> {
                 std.setSchool(mapStudent.getSchool());
                 std.setStartEducationDate(mapStudent.getStartEducationDate());
@@ -67,14 +68,19 @@ public class StudentService {
         }).get();
     }
 
-    public StudentEntity saveStudent(Student studentDto) {
-        SchoolEntity school = schoolRepo.findById(studentDto.getSchoolId()).get();
-        StudentEntity student = new StudentEntity(school, studentDto.getStartEducationDate(), studentDto.getStartEducationDate());
-        return studentRepo.save(student);
+
+        private StudentEntity saveStudent(Student studentDto) {
+        Optional<SchoolEntity> school = schoolRepo.findById(studentDto.getSchoolId());
+        if (!school.isPresent()){
+            return null;
+        }
+        StudentEntity student = new StudentEntity(school.get(), studentDto.getStartEducationDate(), studentDto.getStartEducationDate());
+        studentRepo.save(student);
+        return student;
     }
 
     private StudentEntity mapObject(Student studentDto) {
-        SchoolEntity schoolEntity = schoolRepo.findById(studentDto.getSchoolId()).get();
+        SchoolEntity schoolEntity = schoolRepo.findById(studentDto.getSchoolId()).orElseThrow(IllegalArgumentException::new);
         return new StudentEntity(schoolEntity, studentDto.getStartEducationDate(), studentDto.getEndEducationDate());
     }
 }

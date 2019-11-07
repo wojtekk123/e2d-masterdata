@@ -20,7 +20,7 @@ public class SchoolService {
     }
 
     public SchoolEntity getSchoolId(Integer id) {
-        return schoolRepo.findById(id.longValue()).get();
+        return schoolRepo.findById(id.longValue()).orElseThrow(IllegalArgumentException::new);
     }
 
     public List<SchoolEntity> getAllschool() {
@@ -28,7 +28,7 @@ public class SchoolService {
     }
 
     public void deleteSchool(Integer id) {
-        schoolRepo.delete(schoolRepo.findById(id.longValue()).get());
+        schoolRepo.delete(schoolRepo.findById(id.longValue()).orElseThrow(IllegalArgumentException::new));
     }
 
     public SchoolEntity updateSchool(Integer id, School schoolDto) {

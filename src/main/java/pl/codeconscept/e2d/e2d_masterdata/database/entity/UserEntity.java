@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "user_")
+@Table(name = "user_account")
 public class UserEntity {
 
     @Id
@@ -28,6 +28,7 @@ public class UserEntity {
     @Email(message = "Illegal email")
     @Column (name = "email")
     private String email;
+    @Pattern(regexp ="^\\+(?:[0-9] ?){8,10}[0-9]$",message = "wrong number")
     @Column (name = "phone_number")
     private String phoneNumber;
     @OneToOne

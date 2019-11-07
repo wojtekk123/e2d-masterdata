@@ -7,7 +7,6 @@ import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.CarRepo;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.SchoolRepo;
 import pl.codeconscept.e2d.e2d_masterdata.dto.Car;
-
 import java.util.List;
 
 @Service
@@ -27,11 +26,11 @@ public class CarService {
     }
 
     public CarEntity getCarById(Integer id) {
-        return carRepo.findById(id.longValue()).get();
+        return carRepo.findById(id.longValue()).orElseThrow(IllegalArgumentException::new);
     }
 
     public void deleteCar(Integer id) {
-        carRepo.delete(carRepo.findById(id.longValue()).get());
+        carRepo.delete(carRepo.findById(id.longValue()).orElseThrow(IllegalArgumentException::new));
     }
 
     public CarEntity updateCar(Integer id, Car carDto) {
@@ -46,7 +45,7 @@ public class CarService {
     }
 
     private CarEntity mapObject(Car carDto) {
-        SchoolEntity school = schoolRepo.findById(carDto.getSchoolId()).get();
+        SchoolEntity school = schoolRepo.findById(carDto.getSchoolId()).orElseThrow(IllegalArgumentException::new);
         return new CarEntity(school, carDto.getModel(), carDto.getBrand(), carDto.getRegistrationNumber());
     }
 

@@ -3,6 +3,7 @@ package pl.codeconscept.e2d.e2d_masterdata.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.InstructorEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.UserEntity;
@@ -24,8 +25,13 @@ public class InstructorService {
     private final SchoolRepo schoolRepo;
     private final UserRepo userRepo;
 
+    @Transactional
     public UserEntity saveUser(Instructor instructorDto) {
         InstructorEntity instructor = saveInstructor(instructorDto);
+        if (instructor == null) {
+            throw new NullPointerException();
+        }
+
         User userDto = instructorDto.getUserDto();
         UserEntity user = new UserEntity(userDto.getFirstName(), userDto.getSecondName(), userDto.getEmail(), userDto.getPhoneNumber(), null, instructor);
         return userRepo.save(user);
@@ -41,7 +47,6 @@ public class InstructorService {
 
     public void deleteInstructor(Integer id) {
         userRepo.delete(userRepo.findByInstructorId(id.longValue()));
-
     }
 
     public UserEntity updateInstructor(Integer id, Instructor instructorDto) {
@@ -64,13 +69,17 @@ public class InstructorService {
     }
 
     private InstructorEntity saveInstructor(Instructor instructorDto) {
-        SchoolEntity school = schoolRepo.findById(instructorDto.getSchoolId()).get();
-        InstructorEntity instructor = new InstructorEntity(school);
+        Optional<SchoolEntity> school = schoolRepo.findById(instructorDto.getSchoolId());
+
+        if (!school.isPresent()) {
+            return null;
+        }
+        InstructorEntity instructor = new InstructorEntity(school.orElseThrow(IllegalArgumentException::new));
         return instructorRepo.save(instructor);
     }
 
     private InstructorEntity mapObject(Instructor instructorDto) {
-        SchoolEntity school = schoolRepo.findById(instructorDto.getSchoolId()).get();
+        SchoolEntity school = schoolRepo.findById(instructorDto.getSchoolId()).orElseThrow(IllegalArgumentException::new);
         return new InstructorEntity(school);
     }
 

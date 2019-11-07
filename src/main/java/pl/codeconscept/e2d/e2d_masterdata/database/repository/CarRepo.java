@@ -6,6 +6,5 @@ import pl.codeconscept.e2d.e2d_masterdata.database.entity.CarEntity;
 
 @Repository
 public interface CarRepo extends JpaRepository<CarEntity,Long> {
-    public boolean existsByRegistrationNumber (String registrationNumber);
 
 }
