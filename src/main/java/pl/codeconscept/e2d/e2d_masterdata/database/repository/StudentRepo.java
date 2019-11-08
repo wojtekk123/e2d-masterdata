@@ -6,7 +6,4 @@ import pl.codeconscept.e2d.e2d_masterdata.database.entity.StudentEntity;
 
 @Repository
 public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
-
-
-
 }

@@ -3,17 +3,23 @@ package pl.codeconscept.e2d.e2d_masterdata.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.InstructorEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
+import pl.codeconscept.e2d.e2d_masterdata.database.entity.StudentEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.UserEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.InstructorRepo;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.SchoolRepo;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.UserRepo;
-import pl.codeconscept.e2d.e2d_masterdata.dto.Instructor;
-import pl.codeconscept.e2d.e2d_masterdata.dto.User;
+import pl.codeconscept.e2d.e2d_masterdata.service.mappers.InstructorMapper;
+import pl.codeconscept.e2d.e2d_masterdata.service.mappers.StudentMapper;
+import pl.codeconscept.e2d.e2d_masterdata.service.mappers.UserMapper;
+import pl.codeconscept.e2d.e2dmasterdata.model.Instructor;
+import pl.codeconscept.e2d.e2dmasterdata.model.Student;
+import pl.codeconscept.e2d.e2dmasterdata.model.User;
+
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,54 +30,48 @@ public class InstructorService {
     private final SchoolRepo schoolRepo;
     private final UserRepo userRepo;
 
-    public UserEntity saveUser(Instructor instructorDto) {
-        InstructorEntity instructor = saveInstructor(instructorDto);
-        User userDto = instructorDto.getUserDto();
-        UserEntity user = new UserEntity(userDto.getFirstName(), userDto.getSecondName(), userDto.getEmail(), userDto.getPhoneNumber(), null, instructor);
-        return userRepo.save(user);
-    }
+    @Transactional
+    public Instructor saveInstructor(Instructor instructor) {
+        SchoolEntity schoolEntity = schoolRepo.findById(instructor.getSchoolId()).orElseThrow(IllegalArgumentException::new);
+        UserEntity savedUser = userRepo.save(UserMapper.mapToEntity(instructor.getUser()));
+        InstructorEntity saveInstructor = instructorRepo.save(InstructorMapper.mapToEntity(savedUser, schoolEntity));
 
-    public List<UserEntity> getAllInstructor() {
-        return userRepo.findAll().stream().filter(e -> (e.getStudent() == null)).collect(Collectors.toList());
-    }
-
-    public UserEntity getInstructorById(Integer id) {
-        return userRepo.findByInstructorId(id.longValue());
-    }
-
-    public void deleteInstructor(Integer id) {
-        userRepo.delete(userRepo.findByInstructorId(id.longValue()));
+        if (saveInstructor == null) {
+            throw new NullPointerException();
+        }
+        return InstructorMapper.mapToModel(saveInstructor);
 
     }
-
-    public UserEntity updateInstructor(Integer id, Instructor instructorDto) {
-        User userDto = instructorDto.getUserDto();
-        InstructorEntity mapInstructor = mapObject(instructorDto);
-        Optional<UserEntity> userOptional = Optional.of(userRepo.findByInstructorId(id.longValue()));
-        Long idStd = userOptional.get().getInstructor().getId();
-        return userOptional.map(user -> {
-            user.setFirstName(userDto.getFirstName());
-            user.setSecondName(userDto.getSecondName());
-            user.setEmail(userDto.getEmail());
-            user.setPhoneNumber(userDto.getEmail());
-            user.setStudent(null);
-            user.setInstructor(instructorRepo.findById(idStd).map(inst -> {
-                inst.setSchoolId(mapInstructor.getSchoolId());
-                return instructorRepo.save(inst);
-            }).get());
-            return userRepo.save(user);
-        }).get();
+    public List<Instructor> getAllInstructor() {
+        List<InstructorEntity> all = instructorRepo.findAll();
+        return all.stream().map(InstructorMapper::mapToModel).collect(Collectors.toList());
     }
 
-    private InstructorEntity saveInstructor(Instructor instructorDto) {
-        SchoolEntity school = schoolRepo.findById(instructorDto.getSchoolId()).get();
-        InstructorEntity instructor = new InstructorEntity(school);
-        return instructorRepo.save(instructor);
+    public Instructor getInstructorById(Long id) {
+        InstructorEntity instructorEntity = instructorRepo.findById(id).orElseThrow(IllegalArgumentException::new);
+        return InstructorMapper.mapToModel(instructorEntity);
     }
 
-    private InstructorEntity mapObject(Instructor instructorDto) {
-        SchoolEntity school = schoolRepo.findById(instructorDto.getSchoolId()).get();
-        return new InstructorEntity(school);
+    public void deleteInstructor(Long id) {
+        instructorRepo.delete(instructorRepo.findById(id).orElseThrow(IllegalArgumentException::new));
     }
 
+    public Instructor updateInstructor(Long id, Instructor instructor) {
+        User userToChange = instructor.getUser();
+        Long idUser = instructor.getUser().getId();
+
+        InstructorEntity instructorEntity = instructorRepo.findById(id).map(inst -> {
+            inst.setUserEntity(userRepo.findById(idUser).map(user -> {
+                user.setFirstName(userToChange.getFirstName());
+                user.setSecondName(userToChange.getSecondName());
+                user.setEmail(userToChange.getEmail());
+                user.setPhoneNumber(userToChange.getPhoneNumber());
+                return user;
+            }).orElseThrow(IllegalArgumentException::new));
+            inst.setSchool(schoolRepo.findById(instructor.getSchoolId()).orElseThrow(IllegalArgumentException::new));
+            return inst;
+        }).orElseThrow(IllegalArgumentException::new);
+
+        return InstructorMapper.mapToModel(instructorRepo.save(instructorEntity));
+    }
 }

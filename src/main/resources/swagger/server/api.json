@@ -70,7 +70,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -117,7 +118,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
+
           },
           {
             "in": "body",
@@ -150,7 +153,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
+
           }
         ],
         "responses": {
@@ -200,7 +205,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -247,7 +253,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           },
           {
             "in": "body",
@@ -280,7 +287,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -329,7 +337,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -376,7 +385,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           },
           {
             "in": "body",
@@ -409,7 +419,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -459,7 +470,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -506,7 +518,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           },
           {
             "in": "body",
@@ -539,7 +552,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format":"int64"
           }
         ],
         "responses": {
@@ -552,6 +566,8 @@
   },
 
   "definitions": {
+
+
     "Instructor": {
       "type": "object",
       "properties": {
@@ -559,8 +575,12 @@
           "type": "integer",
           "format": "int64"
         },
-        "school": {
-          "type": "integer"
+        "user":  {
+          "$ref": "#/definitions/User"
+        },
+        "schoolId": {
+          "type": "integer",
+          "format":"int64"
 
         }
       }
@@ -572,9 +592,12 @@
           "type": "integer",
           "format": "int64"
         },
-        "school": {
-          "type": "integer"
-
+        "user":  {
+          "$ref": "#/definitions/User"
+        },
+        "schoolId": {
+          "type": "integer",
+          "format":"int64"
         },
         "startEducation": {
           "type": "string",
@@ -596,7 +619,7 @@
         "name": {
           "type": "string"
         },
-        "officialeName": {
+        "officialName": {
           "type": "string"
         }
       }
@@ -608,8 +631,9 @@
           "type": "integer",
           "format": "int64"
         },
-        "school": {
-          "type": "integer"
+        "schoolId": {
+          "type": "integer",
+          "format":"int64"
 
         },
         "model": {
@@ -641,13 +665,6 @@
         },
         "phoneNumber": {
           "type": "string"
-        },
-        "student": {
-          "type": "integer"
-        },
-        "instructor": {
-          "type": "integer"
-
         }
       },
       "xml": {

@@ -1,14 +1,10 @@
 package pl.codeconscept.e2d.e2d_masterdata.database.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+
 
 import javax.persistence.*;
-
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "instructor")
 public class InstructorEntity {
@@ -19,9 +15,10 @@ public class InstructorEntity {
 
     @ManyToOne
     @JoinColumn(name = "school_id")
-    private SchoolEntity schoolId;
+    private SchoolEntity school;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
-    public InstructorEntity(SchoolEntity schoolId) {
-        this.schoolId = schoolId;
-    }
+
 }

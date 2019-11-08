@@ -1,12 +1,16 @@
 package pl.codeconscept.e2d.e2d_masterdata.service;
 
+import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.SchoolRepo;
-import pl.codeconscept.e2d.e2d_masterdata.dto.School;
+import pl.codeconscept.e2d.e2d_masterdata.service.mappers.SchoolMapper;
+import pl.codeconscept.e2d.e2dmasterdata.model.School;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,28 +18,32 @@ public class SchoolService {
 
     private final SchoolRepo schoolRepo;
 
-    public SchoolEntity saveSchool(School schoolDto) {
-        SchoolEntity school = new SchoolEntity(schoolDto.getName(), schoolDto.getOfficialName());
-        return schoolRepo.save(school);
+    public School saveSchool(School school) {
+        SchoolEntity savedSchool = schoolRepo.save(SchoolMapper.mapToEntity(school));
+        return SchoolMapper.mapToModel(savedSchool);
     }
 
-    public SchoolEntity getSchoolId(Integer id) {
-        return schoolRepo.findById(id.longValue()).get();
+
+    public School getSchoolId(Long id) {
+        SchoolEntity schoolEntity = schoolRepo.findById(id).orElseThrow(IllegalArgumentException::new);
+        return SchoolMapper.mapToModel(schoolEntity);
     }
 
-    public List<SchoolEntity> getAllschool() {
-        return schoolRepo.findAll();
+    public List<School> getAllSchool() {
+        List<SchoolEntity> allSchool = schoolRepo.findAll();
+        return allSchool.stream().map(SchoolMapper::mapToModel).collect(Collectors.toList());
     }
 
-    public void deleteSchool(Integer id) {
-        schoolRepo.delete(schoolRepo.findById(id.longValue()).get());
+    public void deleteSchool(Long id) {
+        schoolRepo.delete(schoolRepo.findById(id).orElseThrow(IllegalArgumentException::new));
     }
 
-    public SchoolEntity updateSchool(Integer id, School schoolDto) {
-        return schoolRepo.findById(id.longValue()).map(school -> {
-            school.setName(schoolDto.getName());
-            school.setOfficialName(schoolDto.getOfficialName());
-            return schoolRepo.save(school);
-        }).get();
+    public School updateSchool(Long id, School school) {
+        SchoolEntity schoolToChange = schoolRepo.findById(id).map(s -> {
+            s.setName(school.getName());
+            s.setOfficialName(school.getOfficialName());
+            return schoolRepo.save(s);
+        }).orElseThrow(IllegalArgumentException::new);
+        return SchoolMapper.mapToModel(schoolToChange);
     }
 }

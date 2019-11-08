@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import pl.codeconscept.e2d.e2d_masterdata.database.entity.UserEntity;
-import pl.codeconscept.e2d.e2d_masterdata.database.repository.UserRepo;
+import pl.codeconscept.e2d.e2d_masterdata.service.SchoolService;
 import pl.codeconscept.e2d.e2d_masterdata.service.StudentService;
 import pl.codeconscept.e2d.e2dmasterdata.api.StudentApi;
-import pl.codeconscept.e2d.e2d_masterdata.dto.Student;
+import pl.codeconscept.e2d.e2dmasterdata.model.Student;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,35 +17,30 @@ import java.util.List;
 public class StudentApiImpl implements StudentApi {
 
     private final StudentService studentService;
-    private final UserRepo userRepo;
 
     @Override
-    public ResponseEntity<UserEntity> createStudent(@Valid Student body) {
-        UserEntity userEntity = studentService.saveUser(body);
-        return new ResponseEntity<>(userEntity,HttpStatus.OK) ;
+    public ResponseEntity<Student> createStudent(@Valid Student body) {
+        return new ResponseEntity<>(studentService.saveStudent(body),HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> deleteStudent(Integer id) {
+    public ResponseEntity<Void> deleteStudent(Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<List<UserEntity>> getAllStudent() {
-        List<UserEntity> allStudent = studentService.getAllStudent();
-        return new ResponseEntity<>(allStudent,HttpStatus.OK);
+    public ResponseEntity<List<Student>> getAllStudent() {
+        return new ResponseEntity<>(studentService.getAllStudent(), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<UserEntity> getStudent(Integer id) {
-        UserEntity studentById = studentService.getStudentById(id);
-        return new ResponseEntity<>(studentById,HttpStatus.OK);
+    public ResponseEntity<Student> getStudent(Long id) {
+        return new ResponseEntity<>(studentService.getStudentById(id),HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<UserEntity> updateStudent(Integer id, @Valid Student body) {
-        UserEntity userEntity = studentService.updateStudent(id, body);
-        return new ResponseEntity<>(userEntity,HttpStatus.OK);
+    public ResponseEntity<Student> updateStudent(Long id, @Valid Student body) {
+        return new ResponseEntity<>(studentService.updateStudent(id, body),HttpStatus.OK);
     }
 }

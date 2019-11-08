@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
 import pl.codeconscept.e2d.e2d_masterdata.database.repository.SchoolRepo;
 import pl.codeconscept.e2d.e2d_masterdata.service.SchoolService;
 import pl.codeconscept.e2d.e2dmasterdata.api.SchoolApi;
-import pl.codeconscept.e2d.e2d_masterdata.dto.School;
+import pl.codeconscept.e2d.e2dmasterdata.model.School;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,35 +16,31 @@ import java.util.List;
 @RestController
 public class SchoolApiImpl implements SchoolApi {
 
-    private final SchoolRepo schoolRepo;
     private final SchoolService schoolService;
 
     @Override
-    public ResponseEntity<SchoolEntity> createSchool(@Valid School body) {
-        SchoolEntity schoolEntity = schoolService.saveSchool(body);
-        return new ResponseEntity<>(schoolEntity, HttpStatus.OK);
+    public ResponseEntity<School> createSchool(@Valid School body) {
+        return new ResponseEntity<>(schoolService.saveSchool(body), HttpStatus.OK);
     }
+
     @Override
-    public ResponseEntity<Void> deleteSchool(Integer id) {
+    public ResponseEntity<Void> deleteSchool(Long id) {
         schoolService.deleteSchool(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<List<SchoolEntity>> getAllSchool() {
-        List<SchoolEntity> allschool = schoolService.getAllschool();
-        return new ResponseEntity<>(allschool,HttpStatus.OK);
+    public ResponseEntity<List<School>> getAllSchool() {
+        return new ResponseEntity<>(schoolService.getAllSchool(),HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<SchoolEntity> getSchool(Integer id) {
-        SchoolEntity schoolId = schoolService.getSchoolId(id);
-        return new ResponseEntity<>(schoolId,HttpStatus.OK);
+    public ResponseEntity<School> getSchool(Long id) {
+        return new ResponseEntity<>(schoolService.getSchoolId(id),HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<SchoolEntity> updateSchool(Integer id, @Valid School body) {
-        SchoolEntity schoolEntity = schoolService.updateSchool(id, body);
-        return new ResponseEntity<>(schoolEntity,HttpStatus.OK);
+    public ResponseEntity<School> updateSchool(Long id, @Valid School body) {
+        return new ResponseEntity<>(schoolService.updateSchool(id,body),HttpStatus.OK);
     }
 }

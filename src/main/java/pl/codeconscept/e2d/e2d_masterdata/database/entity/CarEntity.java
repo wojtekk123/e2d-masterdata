@@ -1,5 +1,6 @@
 package pl.codeconscept.e2d.e2d_masterdata.database.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "car")
 public class CarEntity {
@@ -20,7 +19,7 @@ public class CarEntity {
     private Long id;
     @OneToOne
     @JoinColumn(name = "school_id")
-    private SchoolEntity schoolId;
+    private SchoolEntity school;
     @NotNull
     private String model;
     @NotNull
@@ -29,10 +28,5 @@ public class CarEntity {
     @Column(name = "registration_number")
     private String registrationNumber;
 
-    public CarEntity(SchoolEntity schoolId, String model, String brand, String registrationNumber) {
-        this.schoolId = schoolId;
-        this.model = model;
-        this.brand = brand;
-        this.registrationNumber = registrationNumber;
-    }
+
 }

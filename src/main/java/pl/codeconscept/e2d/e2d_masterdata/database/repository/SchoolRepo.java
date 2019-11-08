@@ -6,7 +6,4 @@ import pl.codeconscept.e2d.e2d_masterdata.database.entity.SchoolEntity;
 
 @Repository
 public interface SchoolRepo extends JpaRepository<SchoolEntity,Long> {
-
-    boolean existsByOfficialName (String officialName);
-
 }

@@ -1,5 +1,6 @@
 package pl.codeconscept.e2d.e2d_masterdata.database.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,9 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "user_")
 public class UserEntity {
@@ -28,23 +27,9 @@ public class UserEntity {
     @Email(message = "Illegal email")
     @Column (name = "email")
     private String email;
+   // @Pattern(regexp ="^\\+(?:[0-9] ?){8,10}[0-9]$",message = "wrong number")
     @Column (name = "phone_number")
     private String phoneNumber;
-    @OneToOne
-    @JoinColumn(name = "student_id")
-    private StudentEntity student;
-    @OneToOne
-    @JoinColumn(name = "instructor_id")
-    private InstructorEntity instructor;
-
-    public UserEntity(String firstName, String secondName, String email, String phoneNumber, StudentEntity student, InstructorEntity instructor) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.student = student;
-        this.instructor = instructor;
-    }
 
 
 }
