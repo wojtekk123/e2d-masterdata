@@ -73,6 +73,34 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${io.swagger.version}</version>
         </dependency>
+
+
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.4.8.Final</version>
+        </dependency>
+
+
+
+
     </dependencies>
     <build>
         <plugins>
@@ -103,8 +131,8 @@
                                 <apiTests>false</apiTests>
                             </environmentVariables>
                             <configOptions>
-                                <apiPackage>pl.codeconscept.e2d.e2dmasterdata.api</apiPackage>
-                                <modelPackage>pl.codeconscept.e2d.e2dmasterdata.model</modelPackage>
+                                <apiPackage>pl.codeconcept.e2d.e2dmasterdata.api</apiPackage>
+                                <modelPackage>pl.codeconcept.e2d.e2dmasterdata.model</modelPackage>
                                 <interfaceOnly>true</interfaceOnly>
                                 <dateLibrary>java7</dateLibrary>
                             </configOptions>
