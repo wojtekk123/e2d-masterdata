@@ -7,6 +7,7 @@ import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.StudentEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.SchoolRepo;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.StudentRepo;
+import pl.codeconcept.e2d.e2dmasterdata.exception.E2DMissingException;
 import pl.codeconcept.e2d.e2dmasterdata.service.mappers.StudentMapper;
 import pl.codeconcept.e2d.e2dmasterdata.model.Student;
 
@@ -22,14 +23,14 @@ public class StudentService {
 
     @Transactional
     public Student saveStudent(Student student) {
-        SchoolEntity schoolEntity = schoolRepo.findById(student.getSchoolId()).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        SchoolEntity schoolEntity = schoolRepo.findById(student.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + student.getSchoolId()));
         StudentEntity studentEntity = StudentMapper.mapToEntity(student, schoolEntity);
         studentRepo.save(studentEntity);
         return StudentMapper.mapToModel(studentEntity);
     }
 
     public Student getStudentById(Long id) {
-        StudentEntity studentEntity = studentRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Student does not exist."));
+        StudentEntity studentEntity = studentRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
         return StudentMapper.mapToModel(studentEntity);
     }
 
@@ -39,13 +40,13 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        studentRepo.delete(studentRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Student does not exist.")));
+        studentRepo.delete(studentRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id)));
     }
 
     @Transactional
     public Student updateStudent(Long id, Student student) {
-        StudentEntity studentEntity = studentRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Student does not exist."));
-        SchoolEntity schoolEntity = schoolRepo.findById(student.getSchoolId()).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        StudentEntity studentEntity = studentRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + student.getId()));
+        SchoolEntity schoolEntity = schoolRepo.findById(student.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + id));
         StudentMapper.mapToExistingEntity(studentEntity, student, schoolEntity);
         studentRepo.save(studentEntity);
         return StudentMapper.mapToModel(studentEntity);

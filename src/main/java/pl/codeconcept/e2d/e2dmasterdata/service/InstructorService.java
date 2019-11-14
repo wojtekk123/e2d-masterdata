@@ -8,6 +8,7 @@ import pl.codeconcept.e2d.e2dmasterdata.database.entity.InstructorEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.InstructorRepo;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.SchoolRepo;
+import pl.codeconcept.e2d.e2dmasterdata.exception.E2DMissingException;
 import pl.codeconcept.e2d.e2dmasterdata.service.mappers.InstructorMapper;
 import pl.codeconcept.e2d.e2dmasterdata.model.Instructor;
 
@@ -24,7 +25,7 @@ public class InstructorService {
 
     @Transactional
     public Instructor saveInstructor(Instructor instructor) {
-        SchoolEntity schoolEntity = schoolRepo.findById(instructor.getSchoolId()).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        SchoolEntity schoolEntity = schoolRepo.findById(instructor.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + instructor.getSchoolId()));
         InstructorEntity saveInstructor = instructorRepo.save(InstructorMapper.mapToEntity(instructor, schoolEntity));
         return InstructorMapper.mapToModel(saveInstructor);
     }
@@ -35,18 +36,18 @@ public class InstructorService {
     }
 
     public Instructor getInstructorById(Long id) {
-        InstructorEntity instructorEntity = instructorRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Instructor does not exist."));
+        InstructorEntity instructorEntity = instructorRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
         return InstructorMapper.mapToModel(instructorEntity);
     }
 
     public void deleteInstructor(Long id) {
-        instructorRepo.delete(instructorRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Instructor does not exist.")));
+        instructorRepo.delete(instructorRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id)));
     }
 
     @Transactional
     public Instructor updateInstructor(Long id, Instructor instructor) {
-        InstructorEntity instructorEntity = instructorRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Student does not exist."));
-        SchoolEntity schoolEntity = schoolRepo.findById(instructor.getSchoolId()).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        InstructorEntity instructorEntity = instructorRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + instructor.getId()));
+        SchoolEntity schoolEntity = schoolRepo.findById(instructor.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + id));
         InstructorMapper.mapToExistingEntity(instructorEntity, instructor, schoolEntity);
         return InstructorMapper.mapToModel(instructorEntity);
     }

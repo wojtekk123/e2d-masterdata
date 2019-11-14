@@ -4,7 +4,7 @@ import pl.codeconcept.e2d.e2dmasterdata.model.User;
 
 class UserMapper {
 
-    public static UserEntity mapToEntity (User user){
+    static UserEntity mapToEntity(User user){
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(user.getFirstName());
         userEntity.setSecondName(user.getSecondName());
@@ -14,7 +14,7 @@ class UserMapper {
 
     }
 
-    public static User mapToModel (UserEntity userEntity){
+    static User mapToModel(UserEntity userEntity){
         User user = new User();
         user.setId(userEntity.getId());
         user.setFirstName(userEntity.getFirstName());
@@ -24,7 +24,7 @@ class UserMapper {
         return user;
     }
 
-    public static void mapToExistingEntity(UserEntity userEntity, User user) {
+    static void mapToExistingEntity(UserEntity userEntity, User user) {
         userEntity.setFirstName(user.getFirstName());
         userEntity.setSecondName(user.getSecondName());
         userEntity.setEmail(user.getEmail());

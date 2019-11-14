@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import pl.codeconcept.e2d.e2dmasterdata.service.SchoolService;
-import pl.codeconcept.e2d.e2dmasterdata.api.SchoolApi;
 import pl.codeconcept.e2d.e2dmasterdata.model.School;
 
 import javax.validation.Valid;

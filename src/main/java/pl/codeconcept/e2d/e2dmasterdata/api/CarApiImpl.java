@@ -29,17 +29,17 @@ public class CarApiImpl implements CarApi {
 
     @Override
     public ResponseEntity<List<Car>> getAllCar() {
-        return new ResponseEntity<>(carService.getAllCar(),HttpStatus.OK);
+        return new ResponseEntity<>(carService.getAllCar(), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Car> getCar(Long id) {
-        return new ResponseEntity<>(carService.getCarById(id),HttpStatus.OK);
+        return new ResponseEntity<>(carService.getCarById(id), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Car> updateCar(Long id, @Valid Car body) {
-        return new ResponseEntity<>(carService.updateCar(id,body),HttpStatus.OK);
+        return new ResponseEntity<>(carService.updateCar(id, body), HttpStatus.OK);
     }
 }
 

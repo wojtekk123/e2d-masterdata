@@ -27,6 +27,4 @@ public class SchoolMapper {
         school.setOfficialName(schoolEntity.getOfficialName());
         return school;
     }
-
-
 }

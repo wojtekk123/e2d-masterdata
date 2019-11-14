@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.SchoolRepo;
+import pl.codeconcept.e2d.e2dmasterdata.exception.E2DMissingException;
 import pl.codeconcept.e2d.e2dmasterdata.service.mappers.SchoolMapper;
 import pl.codeconcept.e2d.e2dmasterdata.model.School;
 
@@ -21,9 +22,8 @@ public class SchoolService {
         return SchoolMapper.mapToModel(savedSchool);
     }
 
-
     public School getSchoolId(Long id) {
-        SchoolEntity schoolEntity = schoolRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        SchoolEntity schoolEntity = schoolRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-"+id));
         return SchoolMapper.mapToModel(schoolEntity);
     }
 
@@ -33,11 +33,11 @@ public class SchoolService {
     }
 
     public void deleteSchool(Long id) {
-        schoolRepo.delete(schoolRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("School does not exist.")));
+        schoolRepo.delete(schoolRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-"+id)));
     }
 
     public School updateSchool(Long id, School school) {
-        SchoolEntity schoolEntity = schoolRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("School does not exist."));
+        SchoolEntity schoolEntity = schoolRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-"+id));
         SchoolMapper.mapToExistingEntity(schoolEntity, school);
         return SchoolMapper.mapToModel(schoolEntity);
     }
