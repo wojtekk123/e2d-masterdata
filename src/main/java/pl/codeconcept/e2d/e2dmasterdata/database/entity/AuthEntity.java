@@ -6,21 +6,20 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "school")
-public class SchoolEntity  {
-
+@Table(name = "auth")
+public class AuthEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne (cascade=CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "official_name")
-    private String officialName;
+    @Column(name = "password")
+    private String password;
 }

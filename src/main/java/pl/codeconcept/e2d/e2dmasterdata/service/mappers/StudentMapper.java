@@ -8,7 +8,7 @@ public class StudentMapper {
 
     public static StudentEntity mapToEntity(Student student, SchoolEntity schoolEntity) {
         StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser()));
+        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser(),student.getUser().getType()));
         mapToEntity(studentEntity, student, schoolEntity);
         return studentEntity;
     }
@@ -33,4 +33,7 @@ public class StudentMapper {
         studentEntity.setStartEducationDate(student.getStartEducation());
         studentEntity.setEndEducationDate(student.getStartEducation());
     }
+
+
+
 }

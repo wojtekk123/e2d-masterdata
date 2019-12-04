@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "student")
-public class StudentEntity {
+public class StudentEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class StudentEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne
+    @ManyToOne (cascade=CascadeType.PERSIST)
     @JoinColumn(name = "school_id")
     private SchoolEntity school;
 

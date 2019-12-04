@@ -9,7 +9,7 @@ public class InstructorMapper {
 
     public static InstructorEntity mapToEntity(Instructor instructor, SchoolEntity schoolEntity) {
         InstructorEntity instructorEntity = new InstructorEntity();
-        instructorEntity.setUserEntity(UserMapper.mapToEntity(instructor.getUser()));
+        instructorEntity.setUserEntity(UserMapper.mapToEntity(instructor.getUser(),instructor.getUser().getType()));
         instructorEntity.setSchool(schoolEntity);
         return instructorEntity;
     }

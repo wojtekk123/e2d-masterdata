@@ -43,7 +43,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Student"
+              "$ref": "#/definitions/StudentAndAuth"
             }
           }
         ],
@@ -57,7 +57,6 @@
         }
       }
     },
-
     "/student/get/{id}": {
       "get": {
         "tags": [
@@ -84,7 +83,6 @@
         }
       }
     },
-
     "/student/all": {
       "get": {
         "tags": [
@@ -105,7 +103,6 @@
         }
       }
     },
-
     "/student/update/{id}": {
       "put": {
         "tags": [
@@ -171,7 +168,7 @@
           "instructor"
         ],
         "summary": "Create instructor",
-        "operationId": "createInstruktor",
+        "operationId": "createInstructor",
         "parameters": [
           {
             "in": "body",
@@ -189,7 +186,6 @@
               "$ref": "#/definitions/Instructor"
             }
           }
-
         }
       }
     },
@@ -567,7 +563,6 @@
 
   "definitions": {
 
-
     "Instructor": {
       "type": "object",
       "properties": {
@@ -585,6 +580,47 @@
         }
       }
     },
+
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+
+    "StudentAndAuth": {
+      "type": "object",
+      "properties": {
+        "student": {
+          "$ref": "#/definitions/Student"
+        },
+        "auth": {
+          "$ref": "#/definitions/Auth"
+        }
+      }
+    },
+
+    "SchoolAndAuth": {
+      "type": "object",
+      "properties": {
+        "school": {
+          "$ref": "#/definitions/School"
+        },
+        "auth": {
+          "$ref": "#/definitions/Auth"
+        }
+      }
+    },
+
+
     "Student": {
       "type": "object",
       "properties": {
@@ -657,7 +693,11 @@
         "firstName": {
           "type": "string"
         },
+
         "secondName": {
+          "type": "string"
+        },
+        "type": {
           "type": "string"
         },
         "email": {

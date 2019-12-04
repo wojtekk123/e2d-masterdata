@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import pl.codeconcept.e2d.e2dmasterdata.service.SchoolService;
+import pl.codeconcept.e2d.e2dmasterdata.database.entity.UserEntity;
+import pl.codeconcept.e2d.e2dmasterdata.service.masterdata.SchoolService;
 import pl.codeconcept.e2d.e2dmasterdata.model.School;
 
 import javax.validation.Valid;
@@ -12,33 +13,38 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class SchoolApiImpl implements SchoolApi {
+public class SchoolApiImpl extends AbstractApi  implements SchoolApi {
 
     private final SchoolService schoolService;
 
     @Override
     public ResponseEntity<School> createSchool(@Valid School body) {
-        return new ResponseEntity<>(schoolService.saveSchool(body), HttpStatus.OK);
+        UserEntity userEntity = getUserFromToken();
+        return schoolService.saveSchool(body,userEntity);
+    }
+
+
+    @Override
+    public ResponseEntity<List<School>> getAllSchool() {
+        UserEntity userEntity= getUserFromToken();
+        return schoolService.getAllSchool(userEntity);
     }
 
     @Override
     public ResponseEntity<Void> deleteSchool(Long id) {
-        schoolService.deleteSchool(id);
-        return ResponseEntity.ok().build();
+        UserEntity userEntity= getUserFromToken();
+        return schoolService.deleteSchool(id,userEntity);
     }
-
-    @Override
-    public ResponseEntity<List<School>> getAllSchool() {
-        return new ResponseEntity<>(schoolService.getAllSchool(),HttpStatus.OK);
-    }
-
     @Override
     public ResponseEntity<School> getSchool(Long id) {
-        return new ResponseEntity<>(schoolService.getSchoolId(id),HttpStatus.OK);
+        UserEntity userEntity = getUserFromToken();
+      return   schoolService.getSchoolById(id,userEntity);
+
     }
 
     @Override
     public ResponseEntity<School> updateSchool(Long id, @Valid School body) {
-        return new ResponseEntity<>(schoolService.updateSchool(id,body),HttpStatus.OK);
+        UserEntity userEntity = getUserFromToken();
+        return schoolService.updateSchool(id,body,userEntity);
     }
 }

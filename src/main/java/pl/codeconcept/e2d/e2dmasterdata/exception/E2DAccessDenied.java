@@ -3,14 +3,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class E2DMissingException extends IllegalArgumentException {
+@ResponseStatus(value = HttpStatus.FORBIDDEN)
+public class E2DAccessDenied extends IllegalArgumentException {
 
 
     private String id;
 
-    public E2DMissingException(String id) {
-        super(String.format(" not found : '%s'", id));
+    public E2DAccessDenied(String id) {
+        super(String.format("access denied to take action for: %s", id));
         this.id = id;
 
     }

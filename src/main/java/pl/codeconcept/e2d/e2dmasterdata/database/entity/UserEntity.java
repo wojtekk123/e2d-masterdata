@@ -1,6 +1,7 @@
 package pl.codeconcept.e2d.e2dmasterdata.database.entity;
 
 import lombok.Data;
+import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -23,12 +24,15 @@ public class UserEntity {
     @Column(name = "second_name")
     private String secondName;
 
+    @Enumerated(EnumType.STRING)
+    private UserType type;
+
     @NotNull
     @Email(message = "Illegal email")
     @Column(name = "email")
     private String email;
 
-    @Pattern(regexp = "^\\+(?:[0-9] ?){8,10}[0-9]$", message = "wrong number")
+  //  @Pattern(regexp = "^\\+(?:[0-9] ?){8,10}[0-9]$", message = "wrong number")
     @Column(name = "phone_number")
     private String phoneNumber;
 }

@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,7 +33,6 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
     }
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
@@ -43,18 +43,24 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
 
                 String username = getClaims(jwt).getSubject();
                 String role = getClaims(jwt).get("role").toString();
+                Long authId=Long.parseLong(getClaims(jwt).get("id").toString());
                 Set<SimpleGrantedAuthority> grantedAuthority = Collections.singleton(new SimpleGrantedAuthority(role));
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, grantedAuthority);
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, authId, grantedAuthority);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }else throw  new NullPointerException();
+
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
 
+        } catch (NullPointerException e) {
+            logger.error("lack of token");
+            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         } catch (MalformedJwtException e) {
             logger.error("Invalid token");
         } catch (ExpiredJwtException e) {
             logger.error("Token expired ");
+            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         } catch (UsernameNotFoundException e) {
             logger.error("User not found");
         } catch (Exception e) {

@@ -1,21 +1,32 @@
-CREATE TABLE school
-(
-    id            SERIAL,
-    name          VARCHAR(50)  NOT NULL,
-    official_name varchar(100) NOT NUll,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE "user"
 (
     id           SERIAL,
     first_name   VARCHAR(100) NOT NULL,
     second_name  VARCHAR(100) NOT NULL,
+    type         VARCHAR(100),
     email        VARCHAR(100) NOT NULL,
     phone_number VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE (email),
-    UNIQUE (phone_number)
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE auth
+(
+    id       SERIAL,
+    user_id  BIGINT REFERENCES "user" (id),
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
+
+CREATE TABLE school
+(
+    id            SERIAL,
+    user_id       BIGINT REFERENCES "user" (id),
+    name          VARCHAR(50)  NOT NULL,
+    official_name varchar(100) NOT NUll,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE student
@@ -45,8 +56,8 @@ CREATE TABLE car
     model               VARCHAR(50) NOT NUll,
     brand               VARCHAR(50) NOT NULL,
     registration_number VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE (registration_number)
+    PRIMARY KEY (id)
+--     UNIQUE (registration_number)
 );
 
 
