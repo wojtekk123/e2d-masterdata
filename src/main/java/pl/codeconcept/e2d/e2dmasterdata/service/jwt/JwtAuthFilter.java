@@ -43,13 +43,12 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
 
                 String username = getClaims(jwt).getSubject();
                 String role = getClaims(jwt).get("role").toString();
-                Long authId=Long.parseLong(getClaims(jwt).get("id").toString());
+                Long authId = Long.parseLong(getClaims(jwt).get("id").toString());
                 Set<SimpleGrantedAuthority> grantedAuthority = Collections.singleton(new SimpleGrantedAuthority(role));
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, authId, grantedAuthority);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }else throw  new NullPointerException();
-
+            } else throw new NullPointerException();
 
             filterChain.doFilter(httpServletRequest, httpServletResponse);
 
@@ -70,7 +69,6 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
     }
 
     private String getJwt(HttpServletRequest httpServletRequest) {
-
         String token = httpServletRequest.getHeader("Authorization");
 
         if (token != null && token.startsWith("Bearer ")) {
@@ -79,7 +77,7 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         return null;
     }
 
-    public Claims getClaims(String token) {
+    private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

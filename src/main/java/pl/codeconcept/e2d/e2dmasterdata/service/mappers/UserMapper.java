@@ -3,17 +3,17 @@ import lombok.RequiredArgsConstructor;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.UserEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.model.User;
-import pl.codeconcept.e2d.e2dmasterdata.service.jwt.JwtAuthFilter;
 
 @RequiredArgsConstructor
 class UserMapper {
 
 
-    static UserEntity mapToEntity(User user, String roleType){
+    static UserEntity mapToEntity(User user, UserType userType,Long id){
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(user.getFirstName());
         userEntity.setSecondName(user.getSecondName());
-        userEntity.setType(setTypeOfUser(roleType));
+        userEntity.setAuthId(id);
+        userEntity.setType(userType);
         userEntity.setEmail(user.getEmail());
         userEntity.setPhoneNumber(user.getPhoneNumber());
         return userEntity;
@@ -35,22 +35,6 @@ class UserMapper {
         userEntity.setSecondName(user.getSecondName());
         userEntity.setEmail(user.getEmail());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-
-    }
-
-    private static UserType setTypeOfUser(String type) {
-        switch (type.toLowerCase()) {
-            case "student":
-                return UserType.STUDENT;
-            case "school":
-                return UserType.SCHOOL;
-            case "admin":
-                return UserType.ADMIN;
-            case "instructor":
-                return UserType.INSTRUCTOR;
-            default:
-                return null;
-        }
     }
 
 }

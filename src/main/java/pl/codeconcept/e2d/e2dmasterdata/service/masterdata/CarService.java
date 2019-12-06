@@ -58,10 +58,11 @@ public class CarService extends AbstractMasterdataService {
 
         try {
             SchoolEntity schoolFromCar = schoolRepo.findById(car.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + car.getId()));
-            SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
 
             if (!userEntity.getType().equals(UserType.ADMIN)) {
-                if (schoolEntity == null || !(schoolEntity.getId() == schoolFromCar.getId()) || userEntity.getType().equals(UserType.STUDENT)) {
+                SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
+
+                if (schoolEntity == null || !(schoolEntity.getId().equals(schoolFromCar.getId())) || userEntity.getType().equals(UserType.STUDENT)) {
                     throw new RuntimeException();
                 }
             }
@@ -74,14 +75,15 @@ public class CarService extends AbstractMasterdataService {
         }
     }
 
-
     public ResponseEntity<Car> getCarById(Long id, UserEntity userEntity) {
+
         try {
             CarEntity carEntity = carRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
-            SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
 
             if (!userEntity.getType().equals(UserType.ADMIN)) {
-                if (schoolEntity == null || !(schoolEntity.getId() == carEntity.getSchool().getId())) {
+                SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
+
+                if (schoolEntity == null || !(schoolEntity.getId().equals(carEntity.getSchool().getId()))) {
                     throw new RuntimeException();
                 }
             }
@@ -93,16 +95,15 @@ public class CarService extends AbstractMasterdataService {
         }
     }
 
-
     public ResponseEntity<Void> deleteCar(Long id, UserEntity userEntity) {
 
         try {
             CarEntity carEntity = carRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
-            SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
 
             if (!userEntity.getType().equals(UserType.ADMIN)) {
+                SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
 
-                if (schoolEntity == null || !(schoolEntity.getId() == carEntity.getSchool().getId())) {
+                if (schoolEntity == null || !(schoolEntity.getId().equals(carEntity.getSchool().getId()))) {
                     throw new RuntimeException();
                 }
             }
@@ -115,26 +116,26 @@ public class CarService extends AbstractMasterdataService {
         }
     }
 
-
     public ResponseEntity<Car> updateCar(Long id, Car car, UserEntity userEntity) {
 
-       try {
-           SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
-           CarEntity carEntity = carRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
-           SchoolEntity schoolEntityToCheck = schoolRepo.findById(car.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + id));
+        try {
+            CarEntity carEntity = carRepo.findById(id).orElseThrow(() -> new E2DMissingException("id-" + id));
+            SchoolEntity schoolEntityToCheck = schoolRepo.findById(car.getSchoolId()).orElseThrow(() -> new E2DMissingException("id-" + id));
 
-           if (!userEntity.getType().equals(UserType.ADMIN)) {
+            if (!userEntity.getType().equals(UserType.ADMIN)) {
+                SchoolEntity schoolEntity = getSchoolEntityForUser(userEntity);
 
-               if (schoolEntity == null || !(schoolEntity.getId() == carEntity.getSchool().getId())) {
-                   throw new RuntimeException();
-               }
-           }
-           CarMapper.mapToExistingEntity(carEntity, car, schoolEntityToCheck);
-           return new ResponseEntity<>(CarMapper.mapToModel(carEntity),HttpStatus.OK);
-       }catch (IllegalArgumentException e) {
-           throw new E2DMissingException("id- " + id);
-       } catch (RuntimeException e) {
-           throw new E2DAccessDenied("update-id:" + id);
-       }
+                if (schoolEntity == null || !(schoolEntity.getId().equals(carEntity.getSchool().getId()))) {
+                    throw new RuntimeException();
+                }
+            }
+            CarMapper.mapToExistingEntity(carEntity, car, schoolEntityToCheck);
+            return new ResponseEntity<>(CarMapper.mapToModel(carEntity), HttpStatus.OK);
+
+        } catch (IllegalArgumentException e) {
+            throw new E2DMissingException("id- " + id);
+        } catch (RuntimeException e) {
+            throw new E2DAccessDenied("update-id:" + id);
+        }
     }
 }

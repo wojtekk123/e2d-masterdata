@@ -20,13 +20,13 @@ public class StudentApiImpl extends AbstractApi implements StudentApi {
     @Override
     public ResponseEntity<Student> createStudent(@Valid StudentAndAuth body) {
         UserEntity userEntity = getUserFromToken();
-        return studentService.saveStudent(body,userEntity);
+        return studentService.saveStudent(body, userEntity);
     }
 
     @Override
     public ResponseEntity<Void> deleteStudent(Long id) {
         UserEntity userEntity = getUserFromToken();
-        return studentService.deleteStudent(id,userEntity);
+        return studentService.deleteStudent(id, userEntity);
     }
 
     @Override
@@ -38,13 +38,12 @@ public class StudentApiImpl extends AbstractApi implements StudentApi {
     @Override
     public ResponseEntity<Student> getStudent(Long id) {
         UserEntity userEntity = getUserFromToken();
-        return studentService.getStudentById(id,userEntity);
-
+        return studentService.getStudentById(id, userEntity);
     }
 
     @Override
     public ResponseEntity<Student> updateStudent(Long id, @Valid Student body) {
         UserEntity userEntity = getUserFromToken();
-        return studentService.updateStudent(id,body,userEntity);
+        return studentService.updateStudent(id, body, userEntity);
     }
 }

@@ -175,7 +175,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Instructor"
+              "$ref": "#/definitions/InstructorAndAuth"
             }
           }
         ],
@@ -307,7 +307,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/School"
+              "$ref": "#/definitions/SchoolAndAuth"
             }
           }
         ],
@@ -595,7 +595,18 @@
         }
       }
     },
-
+    "AuthBack": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "idAuth": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "StudentAndAuth": {
       "type": "object",
       "properties": {
@@ -613,6 +624,18 @@
       "properties": {
         "school": {
           "$ref": "#/definitions/School"
+        },
+        "auth": {
+          "$ref": "#/definitions/Auth"
+        }
+      }
+    },
+
+    "InstructorAndAuth": {
+      "type": "object",
+      "properties": {
+        "instructor": {
+          "$ref": "#/definitions/Instructor"
         },
         "auth": {
           "$ref": "#/definitions/Auth"
@@ -651,6 +674,9 @@
         "id": {
           "type": "integer",
           "format": "int64"
+        },
+        "user":  {
+          "$ref": "#/definitions/User"
         },
         "name": {
           "type": "string"
@@ -695,9 +721,6 @@
         },
 
         "secondName": {
-          "type": "string"
-        },
-        "type": {
           "type": "string"
         },
         "email": {

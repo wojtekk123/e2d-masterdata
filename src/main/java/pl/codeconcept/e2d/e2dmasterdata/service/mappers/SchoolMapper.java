@@ -2,14 +2,16 @@ package pl.codeconcept.e2d.e2dmasterdata.service.mappers;
 
 import lombok.RequiredArgsConstructor;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
+import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.model.School;
 
 @RequiredArgsConstructor
 public class SchoolMapper {
 
-    public static SchoolEntity mapToEntity(School school) {
+    public static SchoolEntity mapToEntity(School school, UserType userType,Long id) {
 
         SchoolEntity schoolEntity = new SchoolEntity();
+        schoolEntity.setUserEntity(UserMapper.mapToEntity(school.getUser(),userType,id));
         schoolEntity.setName(school.getName());
         schoolEntity.setOfficialName(school.getOfficialName());
         return schoolEntity;

@@ -2,13 +2,14 @@ package pl.codeconcept.e2d.e2dmasterdata.service.mappers;
 
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.StudentEntity;
+import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.model.Student;
 
 public class StudentMapper {
 
-    public static StudentEntity mapToEntity(Student student, SchoolEntity schoolEntity) {
+    public static StudentEntity mapToEntity(Student student, SchoolEntity schoolEntity, UserType userType, Long id) {
         StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser(),student.getUser().getType()));
+        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser(), userType,id));
         mapToEntity(studentEntity, student, schoolEntity);
         return studentEntity;
     }
@@ -33,7 +34,4 @@ public class StudentMapper {
         studentEntity.setStartEducationDate(student.getStartEducation());
         studentEntity.setEndEducationDate(student.getStartEducation());
     }
-
-
-
 }

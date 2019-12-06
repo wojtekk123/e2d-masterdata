@@ -1,24 +1,16 @@
 CREATE TABLE "user"
 (
     id           SERIAL,
+    auth_id      BIGINT,
     first_name   VARCHAR(100) NOT NULL,
     second_name  VARCHAR(100) NOT NULL,
-    type         VARCHAR(100),
+    type         VARCHAR(100) NOT NULL,
     email        VARCHAR(100) NOT NULL,
     phone_number VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (email),
+    UNIQUE (phone_number)
 );
-
-CREATE TABLE auth
-(
-    id       SERIAL,
-    user_id  BIGINT REFERENCES "user" (id),
-    username VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id)
-);
-
-
 
 CREATE TABLE school
 (

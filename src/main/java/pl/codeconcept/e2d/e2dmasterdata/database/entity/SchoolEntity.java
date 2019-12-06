@@ -7,14 +7,13 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "school")
-public class SchoolEntity  {
-
+public class SchoolEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne (cascade=CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

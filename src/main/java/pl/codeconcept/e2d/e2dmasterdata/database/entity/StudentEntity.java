@@ -9,17 +9,17 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "student")
-public class StudentEntity  {
+public class StudentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne (cascade=CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne (cascade=CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "school_id")
     private SchoolEntity school;
 
