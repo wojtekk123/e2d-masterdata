@@ -46,16 +46,16 @@ public class SchoolService extends AbstractMasterdataService {
                 throw new RuntimeException();
             }
 
-            ResponseEntity<AuthBack> authBackResponseEntity = setUser(schoolAndAuth.getAuth(), UserType.SCHOOL);
-            SchoolEntity savedSchool = schoolRepo.save(SchoolMapper.mapToEntity(schoolAndAuth.getSchool(),UserType.SCHOOL,authBackResponseEntity.getBody().getIdAuth()));
+            ResponseEntity<AuthBack> authBackResponseEntity = setUserInAuth(schoolAndAuth.getAuth(), UserType.SCHOOL);
+            SchoolEntity savedSchool = schoolRepo.save(SchoolMapper.mapToEntity(schoolAndAuth.getSchool(), UserType.SCHOOL, authBackResponseEntity.getBody().getIdAuth()));
 
             return new ResponseEntity<>(SchoolMapper.mapToModel(savedSchool), HttpStatus.OK);
 
         } catch (DataAccessException | ValidationException e) {
             throw new E2DExistException("Wrong number or email");
-        } catch ( InvalidParameterException e) {
+        } catch (InvalidParameterException e) {
             throw new E2DMissingException("user already exist :" + schoolAndAuth.getAuth().getUsername());
-        }catch ( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new E2DMissingException("id- " + schoolAndAuth.getSchool().getId());
         } catch (RuntimeException e) {
             e.printStackTrace();

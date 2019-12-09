@@ -16,10 +16,7 @@ import pl.codeconcept.e2d.e2dmasterdata.database.repository.StudentRepo;
 import pl.codeconcept.e2d.e2dmasterdata.model.Auth;
 import pl.codeconcept.e2d.e2dmasterdata.model.AuthBack;
 
-import javax.validation.ValidationException;
 import java.security.InvalidParameterException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -51,12 +48,7 @@ public abstract class AbstractMasterdataService {
         return studentRepo.findByUserEntity(userEntity);
     }
 
-    protected InstructorEntity getInstructorEntityForUser(UserEntity userEntity) {
-        return instructorRepo.findByUserEntity(userEntity);
-    }
-
-
-   protected ResponseEntity<AuthBack> setUser(Auth auth, UserType userType) {
+    protected ResponseEntity<AuthBack> setUserInAuth(Auth auth, UserType userType) {
 
         final String uri = "http://localhost:8081/save";
         auth.setRole(userType.toString());
@@ -67,13 +59,5 @@ public abstract class AbstractMasterdataService {
         } catch (NullPointerException e) {
             throw new InvalidParameterException();
         }
-    }
-
-  protected void deleteUser(String user) {
-        final String uri = "http://localhost:8081/delete";
-
-      Map<String, String> params = new HashMap<String, String>();
-      params.put("username", user);
-        restTemplate.delete(uri, params);
     }
 }

@@ -17,6 +17,7 @@ public class PrivilegeService {
 
 
     private final UserRepo userRepo;
+
     public UserType whoIAm() {
         switch (getRole().toLowerCase().substring(5)) {
             case "student":

@@ -12,6 +12,7 @@ public class E2DExistException extends RuntimeException {
         super(String.format("access denied to take action for: %s", id));
         this.id = id;
     }
+
     public String getId() {
         return this.id;
     }

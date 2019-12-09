@@ -54,16 +54,16 @@ public class StudentService extends AbstractMasterdataService {
                     throw new RuntimeException();
                 }
             }
-            ResponseEntity<AuthBack> authBackResponseEntity = setUser(studentAndAuth.getAuth(), UserType.STUDENT);
-            StudentEntity studentEntity = StudentMapper.mapToEntity(studentAndAuth.getStudent(), schoolEntity,UserType.STUDENT,authBackResponseEntity.getBody().getIdAuth());
+            ResponseEntity<AuthBack> authBackResponseEntity = setUserInAuth(studentAndAuth.getAuth(), UserType.STUDENT);
+            StudentEntity studentEntity = StudentMapper.mapToEntity(studentAndAuth.getStudent(), schoolEntity, UserType.STUDENT, authBackResponseEntity.getBody().getIdAuth());
             studentRepo.save(studentEntity);
             return new ResponseEntity<>(StudentMapper.mapToModel(studentEntity), HttpStatus.OK);
 
         } catch (DataAccessException | ValidationException e) {
             throw new E2DExistException("Wrong number or email");
-        } catch ( InvalidParameterException e) {
+        } catch (InvalidParameterException e) {
             throw new E2DMissingException("user already exist :" + studentAndAuth.getAuth().getUsername());
-        }catch ( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new E2DMissingException("id- " + userEntity.getId());
         } catch (RuntimeException e) {
             throw new E2DAccessDenied("school-id:" + studentAndAuth.getStudent().getId());

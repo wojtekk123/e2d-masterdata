@@ -8,10 +8,10 @@ import pl.codeconcept.e2d.e2dmasterdata.model.School;
 @RequiredArgsConstructor
 public class SchoolMapper {
 
-    public static SchoolEntity mapToEntity(School school, UserType userType,Long id) {
+    public static SchoolEntity mapToEntity(School school, UserType userType, Long id) {
 
         SchoolEntity schoolEntity = new SchoolEntity();
-        schoolEntity.setUserEntity(UserMapper.mapToEntity(school.getUser(),userType,id));
+        schoolEntity.setUserEntity(UserMapper.mapToEntity(school.getUser(), userType, id));
         schoolEntity.setName(school.getName());
         schoolEntity.setOfficialName(school.getOfficialName());
         return schoolEntity;

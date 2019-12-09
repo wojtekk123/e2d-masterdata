@@ -8,9 +8,9 @@ import pl.codeconcept.e2d.e2dmasterdata.model.Instructor;
 public class InstructorMapper {
 
 
-    public static InstructorEntity mapToEntity(Instructor instructor, SchoolEntity schoolEntity, UserType userType,Long id) {
+    public static InstructorEntity mapToEntity(Instructor instructor, SchoolEntity schoolEntity, UserType userType, Long id) {
         InstructorEntity instructorEntity = new InstructorEntity();
-        instructorEntity.setUserEntity(UserMapper.mapToEntity(instructor.getUser(),userType,id));
+        instructorEntity.setUserEntity(UserMapper.mapToEntity(instructor.getUser(), userType, id));
         instructorEntity.setSchool(schoolEntity);
         return instructorEntity;
     }

@@ -9,7 +9,7 @@ public class StudentMapper {
 
     public static StudentEntity mapToEntity(Student student, SchoolEntity schoolEntity, UserType userType, Long id) {
         StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser(), userType,id));
+        studentEntity.setUserEntity(UserMapper.mapToEntity(student.getUser(), userType, id));
         mapToEntity(studentEntity, student, schoolEntity);
         return studentEntity;
     }

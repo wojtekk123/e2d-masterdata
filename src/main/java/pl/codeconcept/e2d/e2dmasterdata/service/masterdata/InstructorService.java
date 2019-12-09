@@ -56,17 +56,16 @@ public class InstructorService extends AbstractMasterdataService {
                 }
             }
 
-            ResponseEntity<AuthBack> authBackResponseEntity = setUser(instructorAndAuth.getAuth(), UserType.INSTRUCTOR);
-            InstructorEntity instructorEntity = InstructorMapper.mapToEntity(instructorAndAuth.getInstructor(), schoolEntity, UserType.INSTRUCTOR,authBackResponseEntity.getBody().getIdAuth());
+            ResponseEntity<AuthBack> authBackResponseEntity = setUserInAuth(instructorAndAuth.getAuth(), UserType.INSTRUCTOR);
+            InstructorEntity instructorEntity = InstructorMapper.mapToEntity(instructorAndAuth.getInstructor(), schoolEntity, UserType.INSTRUCTOR, authBackResponseEntity.getBody().getIdAuth());
             instructorRepo.save(instructorEntity);
             return new ResponseEntity<>(InstructorMapper.mapToModel(instructorEntity), HttpStatus.OK);
 
         } catch (DataAccessException | ValidationException e) {
-            deleteUser(instructorAndAuth.getAuth().getUsername());
             throw new E2DExistException("Wrong number or email");
-        } catch ( InvalidParameterException e) {
+        } catch (InvalidParameterException e) {
             throw new E2DMissingException("user already exist :" + instructorAndAuth.getAuth().getUsername());
-        }catch ( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new E2DMissingException("id- " + instructorAndAuth.getInstructor().getId());
         } catch (RuntimeException e) {
             throw new E2DAccessDenied("school id: " + instructorAndAuth.getInstructor().getSchoolId());
@@ -83,7 +82,7 @@ public class InstructorService extends AbstractMasterdataService {
                 List<Instructor> allInstructor = all.stream().map(InstructorMapper::mapToModel).collect(Collectors.toList());
                 return new ResponseEntity<>(allInstructor, HttpStatus.OK);
 
-            } else if (userEntity.getType().equals(UserType.SCHOOL)||userEntity.getType().equals(UserType.INSTRUCTOR)) {
+            } else if (userEntity.getType().equals(UserType.SCHOOL) || userEntity.getType().equals(UserType.INSTRUCTOR)) {
                 Stream<InstructorEntity> instructorEntityStream = all.stream().filter(e -> e.getSchool().getId().equals(schoolFromUser.getId()));
                 List<Instructor> collectInstructor = instructorEntityStream.map(InstructorMapper::mapToModel).collect(Collectors.toList());
                 return new ResponseEntity<>(collectInstructor, HttpStatus.OK);

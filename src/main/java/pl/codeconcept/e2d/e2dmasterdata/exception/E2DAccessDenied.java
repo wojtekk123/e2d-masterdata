@@ -1,4 +1,5 @@
 package pl.codeconcept.e2d.e2dmasterdata.exception;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -12,6 +13,7 @@ public class E2DAccessDenied extends IllegalArgumentException {
         super(String.format("access denied to take action for: %s", id));
         this.id = id;
     }
+
     public String getId() {
         return this.id;
     }
