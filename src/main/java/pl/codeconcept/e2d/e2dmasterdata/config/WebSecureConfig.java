@@ -24,6 +24,11 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public JwtAuthFilter jwtAuthFilter(AuthenticationManager authenticationManager) {
+        return new JwtAuthFilter(authenticationManager);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -39,15 +44,12 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/student/get/**").authenticated()
                 .antMatchers("/instructor/**").hasAnyRole("SCHOOL","ADMIN","INSTRUCTOR")
                 .antMatchers("/instructor/all").authenticated()
-                .anyRequest().denyAll()
+                .anyRequest().permitAll()
                 .and()
                 .addFilter(jwtAuthFilter(authenticationManagerBean()))
                 .csrf().disable();
     }
 
-    @Bean
-    public JwtAuthFilter jwtAuthFilter(AuthenticationManager authenticationManager) {
-        return new JwtAuthFilter(authenticationManager);
-    }
+
 }
 

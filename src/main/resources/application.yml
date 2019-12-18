@@ -2,17 +2,16 @@ server:
   port: 8080
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
+
   application:
     name: e2d_masterdata
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_NAME:postgres}?currentSchema=${POSTGRES_SCHEMA:${spring.application.name}}&stringtype=unspecified&ApplicationName=${spring.application.name}
+    url: jdbc:postgresql://${POSTGRES_HOST:postgres}:5432/${POSTGRES_NAME:postgres}?currentSchema=${POSTGRES_SCHEMA:${spring.application.name}}&stringtype=unspecified&ApplicationName=${spring.application.name}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:1234}
   flyway:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_NAME:postgres}
+    url: jdbc:postgresql://${POSTGRES_HOST:postgres}:5432/${POSTGRES_NAME:postgres}
     schemas: ${POSTGRES_SCHEMA:${spring.application.name}}
     user: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:1234}

@@ -45,5 +45,4 @@ public class CarApiImpl extends AbstractApi implements CarApi {
         UserEntity userEntity = getUserFromToken();
         return carService.updateCar(id, body, userEntity);
     }
-
 }

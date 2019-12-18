@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import pl.codeconcept.e2d.e2dmasterdata.database.entity.InstructorEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.StudentEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.UserEntity;
@@ -48,7 +47,7 @@ public abstract class AbstractMasterdataService {
         return studentRepo.findByUserEntity(userEntity);
     }
 
-    protected ResponseEntity<AuthBack> setUserInAuth(Auth auth, UserType userType) {
+    public ResponseEntity<AuthBack> setUserInAuth(Auth auth, UserType userType) {
 
         final String uri = "http://localhost:8081/save";
         auth.setRole(userType.toString());

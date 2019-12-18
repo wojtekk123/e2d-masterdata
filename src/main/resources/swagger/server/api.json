@@ -13,6 +13,10 @@
   ],
   "tags": [
     {
+      "name": "ride",
+      "description": "Operations about ride"
+    },
+    {
       "name": "student",
       "description": "Operations about student"
     },
@@ -30,6 +34,60 @@
     }
   ],
   "paths": {
+    "/ride/getInstructorId/{id}": {
+      "get": {
+        "tags": [
+          "ride"
+        ],
+        "summary": "Get instructor",
+        "operationId": "getInstructorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format":"int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user object",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+
+            }
+          }
+        }
+      }
+    },
+    "/ride/getStudentId/{id}": {
+      "get": {
+        "tags": [
+          "ride"
+        ],
+        "summary": "Get student",
+        "operationId": "getStudentId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format":"int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user object",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+
+            }
+          }
+        }
+      }
+    },
     "/student/add": {
       "post": {
         "tags": [
@@ -162,6 +220,7 @@
         }
       }
     },
+
     "/instructor/add": {
       "post": {
         "tags": [
@@ -215,7 +274,6 @@
         }
       }
     },
-
     "/instructor/all": {
       "get": {
         "tags": [
@@ -236,7 +294,6 @@
         }
       }
     },
-
     "/instructor/update/{id}": {
       "put": {
         "tags": [
@@ -294,6 +351,7 @@
         }
       }
     },
+
     "/school/add": {
       "post": {
         "tags": [
@@ -347,7 +405,6 @@
         }
       }
     },
-
     "/school/all": {
       "get": {
         "tags": [
@@ -368,7 +425,6 @@
         }
       }
     },
-
     "/school/update/{id}": {
       "put": {
         "tags": [
@@ -480,7 +536,6 @@
         }
       }
     },
-
     "/car/all": {
       "get": {
         "tags": [
@@ -501,7 +556,6 @@
         }
       }
     },
-
     "/car/update/{id}": {
       "put": {
         "tags": [
@@ -563,6 +617,16 @@
 
   "definitions": {
 
+    "UserId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+
     "Instructor": {
       "type": "object",
       "properties": {
@@ -580,7 +644,6 @@
         }
       }
     },
-
     "Auth": {
       "type": "object",
       "properties": {
@@ -618,7 +681,6 @@
         }
       }
     },
-
     "SchoolAndAuth": {
       "type": "object",
       "properties": {
@@ -630,7 +692,6 @@
         }
       }
     },
-
     "InstructorAndAuth": {
       "type": "object",
       "properties": {
@@ -642,8 +703,6 @@
         }
       }
     },
-
-
     "Student": {
       "type": "object",
       "properties": {

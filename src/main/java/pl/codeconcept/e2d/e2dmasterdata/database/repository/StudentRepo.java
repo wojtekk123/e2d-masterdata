@@ -10,4 +10,5 @@ public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
 
     StudentEntity findByUserEntity(UserEntity userEntity);
 
+
 }

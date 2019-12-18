@@ -6,10 +6,10 @@ import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.model.User;
 
 @RequiredArgsConstructor
-class UserMapper {
+public class UserMapper {
 
 
-    static UserEntity mapToEntity(User user, UserType userType, Long id) {
+    public static UserEntity mapToEntity(User user, UserType userType, Long id) {
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(user.getFirstName());
         userEntity.setSecondName(user.getSecondName());
@@ -21,7 +21,7 @@ class UserMapper {
 
     }
 
-    static User mapToModel(UserEntity userEntity) {
+    public static User mapToModel(UserEntity userEntity) {
         User user = new User();
         user.setId(userEntity.getId());
         user.setFirstName(userEntity.getFirstName());
