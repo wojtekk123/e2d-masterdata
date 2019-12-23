@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,11 +24,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
+@Component
 public class JwtAuthFilter extends BasicAuthenticationFilter {
 
     private static final String jwtSecret = "1234";
-
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
+    private String token;
 
     public JwtAuthFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -41,6 +43,7 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
 
             if (jwt != null) {
 
+                setToken(jwt);
                 String username = getClaims(jwt).getSubject();
                 String role = getClaims(jwt).get("role").toString();
                 Long authId = Long.parseLong(getClaims(jwt).get("id").toString());
@@ -82,5 +85,13 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    private void setToken(String token) {
+        this.token = token;
     }
 }

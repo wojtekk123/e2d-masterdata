@@ -47,8 +47,6 @@ public class InstructorApiImpl extends AbstractApi implements InstructorApi {
         UserEntity userEntity = getUserFromToken();
         return instructorService.updateInstructor(id, body, userEntity);
     }
-
-
 }
 
 

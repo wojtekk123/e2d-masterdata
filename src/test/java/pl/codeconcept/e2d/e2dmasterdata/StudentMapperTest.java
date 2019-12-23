@@ -13,17 +13,16 @@ import java.util.Date;
 
 public class StudentMapperTest {
 
-    private Date startDate  = new Date(2013-10-24);
-    private Date endDate  = new Date(2013-10-24);
-    private UserEntity userEntity = new UserEntity("Marek",1L,"Nowak", UserType.INSTRUCTOR,"pkvs@o2.pl","+12 123123322");
-    private SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
-    private StudentEntity studentEntity = new StudentEntity(userEntity,schoolEntity,startDate,endDate);
+    private final Date startDate  = new Date(2013-10-24);
+    private final Date endDate  = new Date(2013-10-24);
+    private final UserEntity userEntity = new UserEntity("Marek",1L,"Nowak", UserType.INSTRUCTOR,"pkvs@o2.pl","+12 123123322");
+    private final SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
+    private final StudentEntity studentEntity = new StudentEntity(userEntity,schoolEntity,startDate,endDate);
 
     @Test
-    public void wheneEqualsThenCorrent () {
+    public void whenEqualsThenCorrent () {
 
         StudentEntity studentEntity = StudentMapper.mapToEntity(getStudent(), schoolEntity, UserType.INSTRUCTOR, 1L);
-
         Assert.assertEquals(studentEntity,this.studentEntity);
     }
 
@@ -45,5 +44,4 @@ public class StudentMapperTest {
         student.setStartEducation(startDate);
         return student;
     }
-
 }

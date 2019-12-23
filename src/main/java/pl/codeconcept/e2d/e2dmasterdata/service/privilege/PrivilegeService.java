@@ -15,8 +15,22 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class PrivilegeService {
 
-
     private final UserRepo userRepo;
+
+    public UserEntity getUser() {
+        return userRepo.findByAuthId(getAuthId());
+    }
+
+    private String getRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        return authorities.iterator().next().getAuthority();
+    }
+
+    private Long getAuthId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (Long) authentication.getCredentials();
+    }
 
     public UserType whoIAm() {
         switch (getRole().toLowerCase().substring(5)) {
@@ -29,21 +43,5 @@ public class PrivilegeService {
             default:
                 return null;
         }
-    }
-
-    public UserEntity getUser() {
-        return userRepo.findByAuthId(getAuthId());
-    }
-
-
-    private String getRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        return authorities.iterator().next().getAuthority();
-    }
-
-    private Long getAuthId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (Long) authentication.getCredentials();
     }
 }

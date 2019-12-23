@@ -7,8 +7,5 @@ import pl.codeconcept.e2d.e2dmasterdata.database.entity.UserEntity;
 
 @RepositoryDefinition(domainClass = StudentEntity.class, idClass = Long.class)
 public interface StudentRepo extends JpaRepository<StudentEntity,Long> {
-
     StudentEntity findByUserEntity(UserEntity userEntity);
-
-
 }

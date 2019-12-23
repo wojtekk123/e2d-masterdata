@@ -33,11 +33,11 @@ public class StudentServiceTest {
     @InjectMocks
     StudentService studentService;
 
-    private UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.STUDENT, "pkvs@o2.pl", "+12 123123322");
-    private SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
-    private Long id = 1L;
-    private Date startDate  = new Date(2013-10-24);
-    private Date endDate  = new Date(2013-10-24);
+    private final UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.STUDENT, "pkvs@o2.pl", "+12 123123322");
+    private final SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
+    private final Long id = 1L;
+    private final Date startDate  = new Date(2013-10-24);
+    private final Date endDate  = new Date(2013-10-24);
 
     @Before
     public void init() {
@@ -59,7 +59,7 @@ public class StudentServiceTest {
     }
 
     @Test(expected = E2DAccessDenied.class)
-    public void whenNoAccessthrowException() {
+    public void whenNoAccessThrowException() {
         studentService.getStudentById(id, userEntity);
     }
 

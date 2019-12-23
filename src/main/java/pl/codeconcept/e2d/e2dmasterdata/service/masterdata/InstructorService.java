@@ -19,11 +19,14 @@ import pl.codeconcept.e2d.e2dmasterdata.exception.E2DExistException;
 import pl.codeconcept.e2d.e2dmasterdata.exception.E2DMissingException;
 import pl.codeconcept.e2d.e2dmasterdata.model.AuthBack;
 import pl.codeconcept.e2d.e2dmasterdata.model.InstructorAndAuth;
+import pl.codeconcept.e2d.e2dmasterdata.service.jwt.JwtAuthFilter;
 import pl.codeconcept.e2d.e2dmasterdata.service.mappers.InstructorMapper;
 import pl.codeconcept.e2d.e2dmasterdata.model.Instructor;
+import pl.codeconcept.e2d.e2dmasterdata.service.template.TemplateRestQueries;
 
 
 import javax.validation.ValidationException;
+import java.rmi.ConnectIOException;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +40,10 @@ public class InstructorService extends AbstractMasterdataService {
     private InstructorRepo instructorRepo;
     @Autowired
     private SchoolRepo schoolRepo;
+    @Autowired
+    private TemplateRestQueries templateRestQueries;
+    @Autowired
+    JwtAuthFilter jwtAuthFilter;
 
 
     public InstructorService(SchoolRepo schoolRepo, InstructorRepo instructorRepo, StudentRepo studentRepo) {
@@ -56,11 +63,13 @@ public class InstructorService extends AbstractMasterdataService {
                 }
             }
 
-            ResponseEntity<AuthBack> authBackResponseEntity = setUserInAuth(instructorAndAuth.getAuth(), UserType.INSTRUCTOR);
-            InstructorEntity instructorEntity = InstructorMapper.mapToEntity(instructorAndAuth.getInstructor(), schoolEntity, UserType.INSTRUCTOR, authBackResponseEntity.getBody().getIdAuth());
+            AuthBack userData = templateRestQueries.getUserData(jwtAuthFilter.getToken(), instructorAndAuth.getAuth(), UserType.INSTRUCTOR);
+            InstructorEntity instructorEntity = InstructorMapper.mapToEntity(instructorAndAuth.getInstructor(), schoolEntity, UserType.INSTRUCTOR, userData.getIdAuth());
             instructorRepo.save(instructorEntity);
             return new ResponseEntity<>(InstructorMapper.mapToModel(instructorEntity), HttpStatus.OK);
 
+        } catch (ConnectIOException e) {
+            throw new E2DExistException("Connection problem");
         } catch (DataAccessException | ValidationException e) {
             throw new E2DExistException("Wrong number or email");
         } catch (InvalidParameterException e) {

@@ -26,9 +26,9 @@ public class SchoolServiceTest {
     @InjectMocks
     SchoolService schoolService;
 
-    private UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.INSTRUCTOR, "pkvs@o2.pl", "+12 123123322");
-    private SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
-    private Long id = 1L;
+    private final UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.INSTRUCTOR, "pkvs@o2.pl", "+12 123123322");
+    private final SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
+    private final Long id = 1L;
 
     @Before
     public void init() {

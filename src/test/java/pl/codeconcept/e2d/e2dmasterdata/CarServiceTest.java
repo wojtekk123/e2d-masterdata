@@ -9,14 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.CarEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.UserEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.CarRepo;
-import pl.codeconcept.e2d.e2dmasterdata.exception.E2DAccessDenied;
-import pl.codeconcept.e2d.e2dmasterdata.model.Car;
 import pl.codeconcept.e2d.e2dmasterdata.service.masterdata.CarService;
 
 import java.util.Optional;
@@ -24,16 +21,15 @@ import java.util.Optional;
 @RunWith(MockitoJUnitRunner.class)
 public class CarServiceTest {
 
-
     @Mock
     CarRepo carRepo;
 
     @InjectMocks
     CarService carService;
 
-    private UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.ADMIN, "pkvs@o2.pl", "+12 123123322");
-    private SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
-    private Long id = 1L;
+    private final UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.ADMIN, "pkvs@o2.pl", "+12 123123322");
+    private final SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
+    private final Long id = 1L;
 
     @Before
     public void init() {

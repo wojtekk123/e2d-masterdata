@@ -8,7 +8,6 @@ import pl.codeconcept.e2d.e2dmasterdata.model.User;
 @RequiredArgsConstructor
 public class UserMapper {
 
-
     public static UserEntity mapToEntity(User user, UserType userType, Long id) {
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(user.getFirstName());
@@ -18,7 +17,6 @@ public class UserMapper {
         userEntity.setEmail(user.getEmail());
         userEntity.setPhoneNumber(user.getPhoneNumber());
         return userEntity;
-
     }
 
     public static User mapToModel(UserEntity userEntity) {
@@ -37,5 +35,4 @@ public class UserMapper {
         userEntity.setEmail(user.getEmail());
         userEntity.setPhoneNumber(user.getPhoneNumber());
     }
-
 }

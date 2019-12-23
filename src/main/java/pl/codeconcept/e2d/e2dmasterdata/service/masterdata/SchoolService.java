@@ -18,10 +18,13 @@ import pl.codeconcept.e2d.e2dmasterdata.exception.E2DExistException;
 import pl.codeconcept.e2d.e2dmasterdata.exception.E2DMissingException;
 import pl.codeconcept.e2d.e2dmasterdata.model.AuthBack;
 import pl.codeconcept.e2d.e2dmasterdata.model.SchoolAndAuth;
+import pl.codeconcept.e2d.e2dmasterdata.service.jwt.JwtAuthFilter;
 import pl.codeconcept.e2d.e2dmasterdata.service.mappers.SchoolMapper;
 import pl.codeconcept.e2d.e2dmasterdata.model.School;
+import pl.codeconcept.e2d.e2dmasterdata.service.template.TemplateRestQueries;
 
 import javax.validation.ValidationException;
+import java.rmi.ConnectIOException;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +35,10 @@ public class SchoolService extends AbstractMasterdataService {
 
     @Autowired
     private SchoolRepo schoolRepo;
+    @Autowired
+    private TemplateRestQueries templateRestQueries;
+    @Autowired
+    JwtAuthFilter jwtAuthFilter;
 
     public SchoolService(SchoolRepo schoolRepo, InstructorRepo instructorRepo, StudentRepo studentRepo) {
         super(schoolRepo, instructorRepo, studentRepo);
@@ -46,11 +53,13 @@ public class SchoolService extends AbstractMasterdataService {
                 throw new RuntimeException();
             }
 
-            ResponseEntity<AuthBack> authBackResponseEntity = setUserInAuth(schoolAndAuth.getAuth(), UserType.SCHOOL);
-            SchoolEntity savedSchool = schoolRepo.save(SchoolMapper.mapToEntity(schoolAndAuth.getSchool(), UserType.SCHOOL, authBackResponseEntity.getBody().getIdAuth()));
+            AuthBack userData = templateRestQueries.getUserData(jwtAuthFilter.getToken(), schoolAndAuth.getAuth(), UserType.SCHOOL);
+            SchoolEntity savedSchool = schoolRepo.save(SchoolMapper.mapToEntity(schoolAndAuth.getSchool(), UserType.SCHOOL, userData.getIdAuth()));
 
             return new ResponseEntity<>(SchoolMapper.mapToModel(savedSchool), HttpStatus.OK);
 
+        } catch (ConnectIOException e) {
+            throw new E2DExistException("Connection problem");
         } catch (DataAccessException | ValidationException e) {
             throw new E2DExistException("Wrong number or email");
         } catch (InvalidParameterException e) {

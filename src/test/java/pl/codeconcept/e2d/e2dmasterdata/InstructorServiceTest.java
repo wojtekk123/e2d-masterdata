@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.InstructorEntity;
 import pl.codeconcept.e2d.e2dmasterdata.database.entity.SchoolEntity;
@@ -18,9 +17,13 @@ import pl.codeconcept.e2d.e2dmasterdata.database.enums.UserType;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.InstructorRepo;
 import pl.codeconcept.e2d.e2dmasterdata.database.repository.SchoolRepo;
 import pl.codeconcept.e2d.e2dmasterdata.model.*;
-import pl.codeconcept.e2d.e2dmasterdata.service.masterdata.AbstractMasterdataService;
+import pl.codeconcept.e2d.e2dmasterdata.service.jwt.JwtAuthFilter;
+import pl.codeconcept.e2d.e2dmasterdata.service.mappers.UserMapper;
 import pl.codeconcept.e2d.e2dmasterdata.service.masterdata.InstructorService;
+import pl.codeconcept.e2d.e2dmasterdata.service.template.TemplateRestQueries;
 
+import javax.validation.Valid;
+import java.rmi.ConnectIOException;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,23 +37,29 @@ public class InstructorServiceTest {
     InstructorRepo instructorRepo;
 
     @Mock
-    AbstractMasterdataService abstractMasterdataService;
+    TemplateRestQueries templateRestQueries;
+
+    @Mock
+    JwtAuthFilter jwtAuthFilter;
 
     @InjectMocks
     InstructorService instructorService;
 
-    private UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.ADMIN, "pkvs@o2.pl", "+12 123123322");
-    private SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
-    private InstructorEntity instructorEntity = new InstructorEntity(schoolEntity, userEntity);
-    private InstructorAndAuth instructorAndAuth = getInstructorAndAuth();
-    private Long id = 1L;
+
+    private final UserEntity userEntity = new UserEntity("Marek", 1L, "Nowak", UserType.ADMIN, "pkvs@o2.pl", "+12 123123322");
+    private final SchoolEntity schoolEntity = new SchoolEntity(userEntity, "Szkoła Podstawowa", "Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego");
+    private final InstructorEntity instructorEntity = new InstructorEntity(schoolEntity, userEntity);
+    private final InstructorAndAuth instructorAndAuth = getInstructorAndAuth();
+    private final Long id = 1L;
+    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJlayIsInJvbGUiOiJST0xFX0FETUlOIiwiaWQiOjEsImlhdCI6MTU3NzEwNjMwMCwiZXhwIjoxNTc3MTE4MzAwfQ.Kw9hbXl3t_i64YwzGPbY8gPfMWCHy83d12gdu3HOksVKxxBrg2dz1ZULemSXGvGNLqMS7FXxExL-2oYm_q6fnA";
 
     @Before
-    public void init() {
+    public void init() throws ConnectIOException {
         MockitoAnnotations.initMocks(this);
         BDDMockito.given(schoolRepo.findById(id)).willReturn(prepareMockData());
         BDDMockito.given(instructorRepo.findById(id)).willReturn(prepareMockDataStudent());
-//        BDDMockito.given(abstractMasterdataService.setUserInAuth(getInstructorAndAuth().getAuth(), UserType.INSTRUCTOR)).willReturn(prepareMockDataAuth());
+        BDDMockito.given(jwtAuthFilter.getToken()).willReturn(token);
+        BDDMockito.given(templateRestQueries.getUserData(token, getInstructorAndAuth().getAuth(), UserType.INSTRUCTOR)).willReturn(prepareMockDataAuth());
     }
 
     @Test
@@ -65,16 +74,16 @@ public class InstructorServiceTest {
         Assert.assertNotNull(byId.get());
     }
 
-//    @Test
-//    public void shouldReturnInstructor() {
-//        ResponseEntity<Instructor> instructorResponseEntity = instructorService.saveInstructor(instructorAndAuth, userEntity);
-//        Assert.assertEquals(instructorResponseEntity.getBody().getUser(), instructorEntity.getUserEntity());
-//    }
+    @Test
+    public void shouldReturnInstructor() {
+        ResponseEntity<Instructor> instructorResponseEntity = instructorService.saveInstructor(instructorAndAuth, userEntity);
+        @Valid User user = instructorResponseEntity.getBody().getUser();
+        Assert.assertEquals(UserMapper.mapToEntity(user, UserType.ADMIN, 1L), instructorEntity.getUserEntity());
+    }
 
     public void instructorShouldByNotNull() {
         ResponseEntity<Instructor> instructorById = instructorService.getInstructorById(id, userEntity);
         Assert.assertNotNull(instructorById);
-
     }
 
     private Optional<SchoolEntity> prepareMockData() {
@@ -88,11 +97,11 @@ public class InstructorServiceTest {
         return Optional.of(instructorEntity);
     }
 
-    private ResponseEntity<AuthBack> prepareMockDataAuth() {
+    private AuthBack prepareMockDataAuth() {
         AuthBack authBack = new AuthBack();
         authBack.setUsername("Marek");
         authBack.setIdAuth(1L);
-        return new ResponseEntity<>(authBack, HttpStatus.OK);
+        return authBack;
     }
 
     private User getUser() {

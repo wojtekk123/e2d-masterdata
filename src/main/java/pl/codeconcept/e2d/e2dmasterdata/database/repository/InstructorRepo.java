@@ -9,11 +9,6 @@ import java.util.Optional;
 
 @RepositoryDefinition(domainClass = InstructorEntity.class, idClass = Long.class)
 public interface InstructorRepo extends JpaRepository<InstructorEntity,Long> {
-
     InstructorEntity findByUserEntity(UserEntity userEntity);
-
-
-
     Optional<InstructorEntity> findById (Long id);
-
 }

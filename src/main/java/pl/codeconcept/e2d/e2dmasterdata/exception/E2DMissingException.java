@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class E2DMissingException extends IllegalArgumentException {
 
-    private String id;
+    private final String id;
 
     public E2DMissingException(String id) {
         super(String.format(" not found : '%s'", id));

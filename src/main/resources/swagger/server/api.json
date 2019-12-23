@@ -34,13 +34,14 @@
     }
   ],
   "paths": {
-    "/ride/getInstructorId/{id}": {
+
+    "/ride/getStudentById/{id}": {
       "get": {
         "tags": [
           "ride"
         ],
-        "summary": "Get instructor",
-        "operationId": "getInstructorId",
+        "summary": "Get Student by Id",
+        "operationId": "getStudentById",
         "parameters": [
           {
             "name": "id",
@@ -61,13 +62,15 @@
         }
       }
     },
-    "/ride/getStudentId/{id}": {
+
+
+    "/ride/getInstructorByAuth/{id}": {
       "get": {
         "tags": [
           "ride"
         ],
-        "summary": "Get student",
-        "operationId": "getStudentId",
+        "summary": "Get instructor by AuthId",
+        "operationId": "getInstructorByAuthId",
         "parameters": [
           {
             "name": "id",
@@ -88,6 +91,34 @@
         }
       }
     },
+    "/ride/getStudentByAuth/{id}": {
+      "get": {
+        "tags": [
+          "ride"
+        ],
+        "summary": "Get student by authId",
+        "operationId": "getStudentByAuthID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format":"int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user object",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+
+            }
+          }
+        }
+      }
+    },
+
     "/student/add": {
       "post": {
         "tags": [
@@ -623,6 +654,9 @@
         "id": {
           "type": "integer",
           "format": "int64"
+        },
+        "userName": {
+          "type": "string"
         }
       }
     },

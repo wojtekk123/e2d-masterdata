@@ -34,6 +34,4 @@ public class CarEntity {
     @Size(min = 4,max = 9,message = "Wrong car registration number.")
     @Column(name = "registration_number")
     private String registrationNumber;
-
-
 }

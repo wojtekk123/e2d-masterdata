@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
 public class E2DAccessDenied extends IllegalArgumentException {
 
-    private String id;
+    private final String id;
 
     public E2DAccessDenied(String id) {
         super(String.format("access denied to take action for: %s", id));

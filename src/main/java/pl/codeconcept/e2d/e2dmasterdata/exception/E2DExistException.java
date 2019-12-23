@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.CONFLICT)
 public class E2DExistException extends RuntimeException {
 
-    private String id;
+    private final String id;
 
     public E2DExistException(String id) {
         super(String.format("access denied to take action for: %s", id));

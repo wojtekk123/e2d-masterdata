@@ -13,14 +13,12 @@ import pl.codeconcept.e2d.e2dmasterdata.service.mappers.UserMapper;
 public class UserMapperTest {
 
 
-    private UserEntity userEntity = new UserEntity("Marek",1L,"Nowak", UserType.ADMIN,"pkvs@o2.pl","+12 123123322");
+    private final UserEntity userEntity = new UserEntity("Marek",1L,"Nowak", UserType.ADMIN,"pkvs@o2.pl","+12 123123322");
 
     @Test
     public void wheneEqualsThenCorrent () {
-
         UserEntity userEntity = UserMapper.mapToEntity(getUser(), UserType.ADMIN, 1L);
         Assert.assertEquals(userEntity,this.userEntity);
-
     }
 
     private User getUser () {
