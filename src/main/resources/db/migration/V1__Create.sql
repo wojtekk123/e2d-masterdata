@@ -8,7 +8,6 @@ CREATE TABLE "user"
     email        VARCHAR(100) NOT NULL,
     phone_number VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE (email),
     UNIQUE (phone_number)
 );
 

@@ -44,7 +44,7 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/student/get/**").authenticated()
                 .antMatchers("/instructor/**").hasAnyRole("SCHOOL","ADMIN","INSTRUCTOR")
                 .antMatchers("/instructor/all").authenticated()
-                .antMatchers("/ride/**").hasAnyRole("INSTRUCTOR","ADMIN","SCHOOL")
+                .antMatchers("/ride/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .addFilter(jwtAuthFilter(authenticationManagerBean()))

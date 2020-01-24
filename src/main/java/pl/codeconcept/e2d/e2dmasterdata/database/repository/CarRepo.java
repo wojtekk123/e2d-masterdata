@@ -11,5 +11,4 @@ public interface CarRepo extends JpaRepository<CarEntity,Long> {
 
     Optional<CarEntity> findById (Long id);
 
-
 }

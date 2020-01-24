@@ -63,6 +63,62 @@
       }
     },
 
+    "/ride/getSchoolByAuthId/{id}": {
+      "get": {
+        "tags": [
+          "ride"
+        ],
+        "summary": "Get School by auth Id",
+        "operationId": "getSchoolByAuthId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format":"int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user object",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+
+            }
+          }
+        }
+      }
+    },
+
+    "/ride/getInstructorById/{id}": {
+      "get": {
+        "tags": [
+          "ride"
+        ],
+        "summary": "Get Instructor by Id",
+        "operationId": "getInstructorById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format":"int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user object",
+            "schema": {
+              "$ref": "#/definitions/UserId"
+
+            }
+          }
+        }
+      }
+    },
+
 
     "/ride/getInstructorByAuth/{id}": {
       "get": {
@@ -91,6 +147,7 @@
         }
       }
     },
+
     "/ride/getStudentByAuth/{id}": {
       "get": {
         "tags": [
@@ -657,6 +714,13 @@
         },
         "userName": {
           "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "schoolId": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },

@@ -1,5 +1,6 @@
 package pl.codeconcept.e2d.e2dmasterdata.service.masterdata;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CarService extends AbstractMasterdataService {
 
     @Autowired

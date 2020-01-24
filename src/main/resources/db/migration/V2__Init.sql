@@ -9,9 +9,11 @@ VALUES (4, 'Lukasz', 'Nowak', 'SCHOOL', 'pkx4vs@22.pl', '+12 122143324');
 INSERT INTO "user"(auth_id, first_name, second_name, type, email, phone_number)
 VALUES (5, 'Adam', 'Nowak', 'STUDENT', 'akx4vs@22.pl', '+12 142143324');
 INSERT INTO "user"(auth_id, first_name, second_name, type, email, phone_number)
-VALUES (6, 'Irek', 'Nowak', 'INSTRUCTOR', 'akx4kvs@22.pl', '+12 152143324');
+VALUES (6, 'Irek', 'Nowak', 'INSTRUCTOR', 'wojtekbiel@gmail.com', '+12 152143324');
 INSERT INTO "user"(auth_id, first_name, second_name, type, email, phone_number)
 VALUES (7, 'Slawek', 'Nowak', 'STUDENT', 'akx4kss@22.pl', '+12 252143324');
+INSERT INTO "user"(auth_id, first_name, second_name, type, email, phone_number)
+VALUES (8, 'Bogdan', 'Nowak', 'INSTRUCTOR', 'wojtekbiel@gmail.com', '+12 253143324');
 
 INSERT INTO school (user_id, name, official_name)
 VALUES (3, 'Szkoła Podstawowa', 'Szkoła Podstawowa nr 9 im. Króla Jana III Sobieskiego');
@@ -27,6 +29,8 @@ VALUES (1, 7, '2013-10-24', '2019-10-24');
 
 INSERT INTO instructor (school_id, user_id)
 VALUES (1, 6);
+INSERT INTO instructor (school_id, user_id)
+VALUES (2, 7);
 
 INSERT INTO car (school_id, model, brand, registration_number)
 VALUES (1, '500', 'FIAT', 'ABC123');

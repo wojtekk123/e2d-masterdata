@@ -10,13 +10,18 @@ import pl.codeconcept.e2d.e2dmasterdata.service.masterdata.UserDataService;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController implements RideApi {
+public class RideController implements RideApi {
 
     private final UserDataService userDataService;
 
     @Override
     public ResponseEntity<UserId> getInstructorByAuthId(Long id) {
         return userDataService.getInstructorByAuthId(id);
+    }
+
+    @Override
+    public ResponseEntity<UserId> getInstructorById(Long id) {
+        return userDataService.getInstructorById(id);
     }
 
     @Override
@@ -27,5 +32,10 @@ public class UserController implements RideApi {
     @Override
     public ResponseEntity<UserId> getStudentByAuthID(Long id) {
         return userDataService.getStudentByAuthID(id);
+    }
+
+    @Override
+    public ResponseEntity<UserId> getSchoolByAuthId(Long id) {
+        return userDataService.getSchoolByAuthId(id);
     }
 }

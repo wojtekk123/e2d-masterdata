@@ -36,10 +36,13 @@ public class StudentService extends AbstractMasterdataService {
 
     @Autowired
     private StudentRepo studentRepo;
+
     @Autowired
     private SchoolRepo schoolRepo;
+
     @Autowired
     private TemplateRestQueries templateRestQueries;
+
     @Autowired
     JwtAuthFilter jwtAuthFilter;
 
