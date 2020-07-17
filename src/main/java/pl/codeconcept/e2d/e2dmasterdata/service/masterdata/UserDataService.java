@@ -30,7 +30,7 @@ public class UserDataService {
         StudentEntity byUserStudent = studentRepo.findByUserEntity(byAuthIdUser);
         UserId userId = new UserId();
         userId.setId(byUserStudent.getId());
-        userId.setUserName(byAuthIdUser.getFirstName()+" "+byAuthIdUser.getSecondName());
+        userId.setUserName(byAuthIdUser.getFirstName() + " " + byAuthIdUser.getSecondName());
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
@@ -39,7 +39,7 @@ public class UserDataService {
         UserEntity userById = userRepo.findById(studentById.getUserEntity().getId()).orElseThrow(IllegalArgumentException::new);
         UserId userId = new UserId();
         userId.setId(userById.getId());
-        userId.setUserName(userById.getFirstName()+" "+userById.getSecondName());
+        userId.setUserName(userById.getFirstName() + " " + userById.getSecondName());
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class UserDataService {
         InstructorEntity byUserInstructor = instructorRepo.findByUserEntity(byAuthIdUser);
         UserId userId = new UserId();
         userId.setId(byUserInstructor.getId());
-        userId.setUserName(byAuthIdUser.getFirstName()+" "+byAuthIdUser.getSecondName());
+        userId.setUserName(byAuthIdUser.getFirstName() + " " + byAuthIdUser.getSecondName());
         userId.setEmail(byAuthIdUser.getEmail());
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
@@ -58,25 +58,21 @@ public class UserDataService {
         UserEntity userById = userRepo.findById(instructorEntity.getUserEntity().getId()).orElseThrow(IllegalArgumentException::new);
         UserId userId = new UserId();
         userId.setId(userById.getId());
-        userId.setUserName(userById.getFirstName()+" "+userById.getSecondName());
+        userId.setUserName(userById.getFirstName() + " " + userById.getSecondName());
         userId.setEmail(userById.getEmail());
         userId.setSchoolId(instructorEntity.getSchool().getId());
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
     public ResponseEntity<UserId> getSchoolByAuthId(Long id) {
-            UserEntity userEntity = userRepo.findByAuthId(id);
+        UserEntity userEntity = userRepo.findByAuthId(id);
         SchoolEntity schoolEntity = schoolRepo.findByUserEntity(userEntity);
         UserId userId = new UserId();
         userId.setEmail(userEntity.getEmail());
-        userId.userName(userEntity.getFirstName()+" "+ userEntity.getSecondName());
+        userId.userName(userEntity.getFirstName() + " " + userEntity.getSecondName());
         userId.setSchoolId(schoolEntity.getId());
-
-        return new ResponseEntity<>(userId,HttpStatus.OK);
+        return new ResponseEntity<>(userId, HttpStatus.OK);
     }
-
-
-
 
 
 }

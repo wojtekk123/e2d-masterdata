@@ -118,7 +118,7 @@ public class StudentService extends AbstractMasterdataService {
                 List<Student> allStudent = all.stream().map(StudentMapper::mapToModel).collect(Collectors.toList());
                 return new ResponseEntity<>(allStudent, HttpStatus.OK);
 
-            } else if (userEntity.getType().equals(UserType.SCHOOL)) {
+            } else if (userEntity.getType().equals(UserType.SCHOOL)||(userEntity.getType().equals(UserType.INSTRUCTOR))) {
                 Stream<StudentEntity> studentEntityStream = all.stream().filter(e -> e.getSchool().getId().equals(schoolFromUser.getId()));
                 List<Student> collectStudent = studentEntityStream.map(StudentMapper::mapToModel).collect(Collectors.toList());
                 return new ResponseEntity<>(collectStudent, HttpStatus.OK);
@@ -173,7 +173,9 @@ public class StudentService extends AbstractMasterdataService {
             if (!userEntity.getType().equals(UserType.ADMIN)) {
                 SchoolEntity schoolEntityForUser = getSchoolEntityForUser(userEntity);
 
-                if (studentEntity == null || !(schoolEntityForUser.getId().equals(schoolEntity.getId())) || !(userEntity.getType().equals(UserType.SCHOOL))) {
+
+
+                if (studentEntity == null || !(schoolEntityForUser.getId().equals(schoolEntity.getId())) || (!(userEntity.getType().equals(UserType.SCHOOL)||!(userEntity.getType().equals(UserType.SCHOOL))))) {
                     throw new RuntimeException();
                 }
             }
